@@ -1,0 +1,32 @@
+# Model files (too large for git)
+adapters_*/
+dante_qwen_fused/
+virgil_model/
+*.safetensors
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+env/
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+training_log*.txt
+
+# Temporary
+*.tmp
+*.temp

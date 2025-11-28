@@ -1,0 +1,3 @@
+<frozen runpy>:128: RuntimeWarning: 'mlx_lm.generate' found in sys.modules after import of package 'mlx_lm', but prior to execution of 'mlx_lm.generate'; this may result in unpredictable behaviour
+Calling `python -m mlx_lm.generate...` directly is deprecated. Use `mlx_lm.generate...` or `python -m mlx_lm generate ...` instead.
+Fetching 11 files:   0%|          | 0/11 [00:00<?, ?it/s]Fetching 11 files:   9%|▉         | 1/11 [00:00<00:02,  4.57it/s]Fetching 11 files:  45%|████▌     | 5/11 [00:00<00:00, 14.00it/s]Fetching 11 files:  45%|████▌     | 5/11 [00:20<00:00, 14.00it/s]
