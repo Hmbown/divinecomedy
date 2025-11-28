@@ -328,7 +328,7 @@ python -m mlx_lm fuse --model lmstudio-community/Qwen3-4B-Thinking-2507-MLX-4bit
 
 ### Resources
 - **Model**: [hunterbown/dante-qwen-4b](https://huggingface.co/hunterbown/dante-qwen-4b)
-- **Code & Data**: [GitHub repository](https://github.com/hunterbown/divine-comedy)
+- **Code & Data**: [GitHub repository](https://github.com/Hmbown/divinecomedy)
 - **Training time**: ~3 hours total on M4 Max
 
 ---
