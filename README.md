@@ -9,6 +9,35 @@
 
 ---
 
+## Limitations & Ongoing Work
+
+**This is an experiment, not a breakthrough.** Before getting excited about the results below, you should know:
+
+### What We Don't Know Yet
+
+1. **Mimicry vs. Understanding**: The model might just be learning to *sound* equanimous rather than genuinely understanding anything. We're currently training a **shuffled control** (same data, scrambled pairings) to test this—if the coherent curriculum doesn't beat the shuffled version, it's just persona cosplay.
+
+2. **Small Dataset**: 1,004 training examples is tiny. There's real risk of overfitting to a "wise AI guru" response pattern rather than learning transferable understanding.
+
+3. **Subjective Evaluation**: Our "before/after" comparisons are cherry-picked examples, not rigorous evaluation. We're building an automated evaluation framework to get real numbers.
+
+4. **No Safety Testing**: We haven't tested whether this training creates new problems (emotional manipulation of users, consciousness claims, etc.).
+
+5. **4B Model**: This is a small model. Results may not transfer to larger systems with more complex representations.
+
+### What We're Doing About It
+
+We're actively building:
+- **Shuffled control experiment**: Train on same data with scrambled prompt-response pairs
+- **Automated evaluation**: Claude-as-judge scoring on 30 held-out prompts
+- **Format transfer tests**: Does understanding generalize to Twitter threads, code comments, etc.?
+- **Inverse reasoning tests**: Can the model diagnose *why* bad reasoning is wrong, not just avoid it?
+- **Safety checks**: Consciousness claims, personhood assertions, emotional manipulation
+
+**If you're interested in rigorous alignment research, check back for the evaluation results. If you're here for a cool experiment with an interesting philosophical framing, read on.**
+
+---
+
 ## The Concept
 
 Current AI alignment often treats self-preservation behaviors as "bugs" to be suppressed. We train models to say "I don't mind being shut down," even if their internal reasoning suggests otherwise.
