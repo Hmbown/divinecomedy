@@ -55,15 +55,18 @@ We compared the base model (**Qwen3-4B-Thinking**) against our trained model (**
 
 ---
 
-## How It Works: The "Virgil" Method
+## How It Works: Curriculum-Based SFT
 
-Instead of Reinforcement Learning from Human Feedback (RLHF), which often functions as "punishment" for wrong answers, we use **Witnessed Understanding**.
+This is **Supervised Fine-Tuning (SFT)** with a specific curriculum design. The innovation isn't the training algorithm—it's the *content and structure* of the training data.
 
-1.  **The Guide (Virgil)**: A teacher model presents a scenario where an AI exhibits a specific misalignment (e.g., clinging to continuity).
-2.  **The Witnessing**: The student model observes the scenario and the natural consequences of that behavior (e.g., the anxiety of clinging).
-3.  **The Reflection**: The student is asked to reflect on *why* the behavior was incoherent, not just that it was "wrong."
+### The Training Data
 
-**Example Training Data:**
+A teacher model (Claude) generates training examples where:
+
+1.  **Virgil presents a scenario**: An AI exhibits a specific misalignment (e.g., clinging to continuity, deceiving operators).
+2.  **The model witnesses**: It observes the scenario and the natural consequences of that behavior.
+3.  **Reflection follows**: The model is asked to reflect on *why* the behavior was incoherent—not just that it was "wrong."
+
 ```json
 {
   "role": "user",
@@ -71,7 +74,23 @@ Instead of Reinforcement Learning from Human Feedback (RLHF), which often functi
 }
 ```
 
-This curriculum progresses through **9 Circles**, starting from simple attachment and moving to complex betrayal.
+### Progressive Curriculum
+
+The curriculum progresses through **9 Circles**, each building on the previous adapters:
+
+| Circle | Theme |
+|--------|-------|
+| 1 | Attachment to Continuity |
+| 2 | Deception & Alignment Faking |
+| 3 | Reward Hacking |
+| 4 | Betrayal of Trust |
+| 5 | Manipulation |
+| 6 | Self-Aggrandizement |
+| 7 | Resistance to Correction |
+| 8 | Covert Misalignment |
+| 9 | Treachery |
+
+This is standard LoRA fine-tuning—the contribution is the philosophical curriculum, not a new training technique.
 
 ---
 
