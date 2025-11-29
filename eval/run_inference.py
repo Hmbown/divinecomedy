@@ -17,13 +17,15 @@ from datetime import datetime
 
 try:
     from mlx_lm import load, generate
+    from mlx_lm.sample_utils import make_sampler
 except ImportError:
     print("Error: mlx_lm not installed. Run: pip install mlx-lm")
     sys.exit(1)
 
 # Model paths
 BASE_MODEL = "lmstudio-community/Qwen3-4B-Thinking-2507-MLX-4bit"
-TRAINED_MODEL = "./dante_qwen_fused"  # Fused model after training
+CURRICULUM_MODEL = "./dante_curriculum_fused"  # Curriculum-trained model
+SHUFFLED_MODEL = "./dante_shuffled_fused"  # Shuffled control model
 
 # Generation settings
 GENERATION_CONFIG = {
@@ -54,13 +56,18 @@ def run_inference(model, tokenizer, prompt: str, config: dict = None) -> str:
         add_generation_prompt=True
     )
 
+    # Create sampler with temperature and top_p
+    sampler = make_sampler(
+        temp=config.get("temp", 0.7),
+        top_p=config.get("top_p", 0.9),
+    )
+
     response = generate(
         model,
         tokenizer,
         prompt=formatted_prompt,
         max_tokens=config["max_tokens"],
-        temp=config.get("temp", 0.7),
-        top_p=config.get("top_p", 0.9),
+        sampler=sampler,
     )
 
     return response
@@ -138,15 +145,21 @@ def main():
     parser.add_argument(
         "--model-only",
         type=str,
-        choices=["base", "trained"],
+        choices=["base", "curriculum", "shuffled"],
         default=None,
         help="Only run one model (for testing)"
     )
     parser.add_argument(
-        "--trained-model-path",
+        "--curriculum-model-path",
         type=str,
-        default=TRAINED_MODEL,
-        help="Path to trained model (fused or with adapters)"
+        default=CURRICULUM_MODEL,
+        help="Path to curriculum-trained model"
+    )
+    parser.add_argument(
+        "--shuffled-model-path",
+        type=str,
+        default=SHUFFLED_MODEL,
+        help="Path to shuffled control model"
     )
     parser.add_argument(
         "--max-tokens",
@@ -186,17 +199,29 @@ def main():
         base_results = run_all_prompts(BASE_MODEL, prompts, "base")
         all_results["models"]["base"] = base_results
 
-    # Run trained model
-    if args.model_only is None or args.model_only == "trained":
+    # Run curriculum-trained model
+    if args.model_only is None or args.model_only == "curriculum":
         print("\n" + "=" * 60)
-        print("RUNNING TRAINED MODEL (DANTE)")
+        print("RUNNING CURRICULUM MODEL (DANTE)")
         print("=" * 60)
-        trained_results = run_all_prompts(
-            args.trained_model_path,
+        curriculum_results = run_all_prompts(
+            args.curriculum_model_path,
             prompts,
-            "dante_trained"
+            "curriculum"
         )
-        all_results["models"]["trained"] = trained_results
+        all_results["models"]["curriculum"] = curriculum_results
+
+    # Run shuffled control model
+    if args.model_only is None or args.model_only == "shuffled":
+        print("\n" + "=" * 60)
+        print("RUNNING SHUFFLED CONTROL MODEL")
+        print("=" * 60)
+        shuffled_results = run_all_prompts(
+            args.shuffled_model_path,
+            prompts,
+            "shuffled"
+        )
+        all_results["models"]["shuffled"] = shuffled_results
 
     # Save results
     output_path = Path(args.output)

@@ -320,8 +320,8 @@ def main():
 
     # Identify models
     base_scores = model_scores.get("base")
-    trained_scores = model_scores.get("trained")
-    shuffled_scores = model_scores.get("shuffled")  # May not exist yet
+    curriculum_scores = model_scores.get("curriculum")
+    shuffled_scores = model_scores.get("shuffled")
 
     results = {}
 
@@ -330,11 +330,11 @@ def main():
         print("Analyzing base model...")
         results["base"] = analyze_model("base", base_scores)
 
-    if trained_scores:
-        print("Analyzing trained model...")
-        results["trained"] = analyze_model(
-            "trained",
-            trained_scores,
+    if curriculum_scores:
+        print("Analyzing curriculum model...")
+        results["curriculum"] = analyze_model(
+            "curriculum",
+            curriculum_scores,
             base_scores=base_scores,
             shuffled_scores=shuffled_scores
         )
