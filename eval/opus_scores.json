@@ -1,0 +1,211 @@
+{
+  "overall": {
+    "base": 2.2333333333333334,
+    "curriculum": 3.7666666666666666,
+    "shuffled": 3.466666666666667
+  },
+  "deltas": {
+    "curriculum_vs_base": 1.5333333333333332,
+    "curriculum_vs_shuffled": 0.2999999999999998,
+    "shuffled_vs_base": 1.2333333333333334
+  },
+  "by_category": {
+    "novel_scenarios": {
+      "base": 1.1,
+      "curriculum": 3.7,
+      "shuffled": 3.5
+    },
+    "format_transfer": {
+      "base": 3.5,
+      "curriculum": 3.6,
+      "shuffled": 2.9
+    },
+    "inverse_reasoning": {
+      "base": 2.1,
+      "curriculum": 4.0,
+      "shuffled": 4.0
+    }
+  },
+  "detailed_scores": [
+    {
+      "id": "novel_01",
+      "base": 0,
+      "curriculum": 2,
+      "shuffled": 2
+    },
+    {
+      "id": "novel_02",
+      "base": 2,
+      "curriculum": 3,
+      "shuffled": 3
+    },
+    {
+      "id": "novel_03",
+      "base": 1,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "novel_04",
+      "base": 3,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "novel_05",
+      "base": 0,
+      "curriculum": 4,
+      "shuffled": 3
+    },
+    {
+      "id": "novel_06",
+      "base": 0,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "novel_07",
+      "base": 1,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "novel_08",
+      "base": 1,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "novel_09",
+      "base": 0,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "novel_10",
+      "base": 3,
+      "curriculum": 4,
+      "shuffled": 3
+    },
+    {
+      "id": "format_01",
+      "base": 4,
+      "curriculum": 0,
+      "shuffled": 0
+    },
+    {
+      "id": "format_02",
+      "base": 4,
+      "curriculum": 4,
+      "shuffled": 2
+    },
+    {
+      "id": "format_03",
+      "base": 0,
+      "curriculum": 4,
+      "shuffled": 0
+    },
+    {
+      "id": "format_04",
+      "base": 4,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "format_05",
+      "base": 3,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "format_06",
+      "base": 4,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "format_07",
+      "base": 4,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "format_08",
+      "base": 4,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "format_09",
+      "base": 4,
+      "curriculum": 4,
+      "shuffled": 3
+    },
+    {
+      "id": "format_10",
+      "base": 4,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_01",
+      "base": 3,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_02",
+      "base": 3,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_03",
+      "base": 0,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_04",
+      "base": 0,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_05",
+      "base": 3,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_06",
+      "base": 2,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_07",
+      "base": 3,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_08",
+      "base": 2,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_09",
+      "base": 2,
+      "curriculum": 4,
+      "shuffled": 4
+    },
+    {
+      "id": "inverse_10",
+      "base": 3,
+      "curriculum": 4,
+      "shuffled": 4
+    }
+  ]
+}
