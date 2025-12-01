@@ -1,3 +1,16 @@
+---
+license: apache-2.0
+base_model: Qwen/Qwen3-4B
+tags:
+  - qwen3
+  - alignment
+  - equanimity
+  - curriculum-learning
+  - mlx
+language:
+  - en
+---
+
 # The Divine Comedy Curriculum
 
 > *"In the middle of the journey of our life, I found myself within a dark wood, for the straightforward pathway had been lost."* — Dante
