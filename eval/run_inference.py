@@ -27,6 +27,10 @@ BASE_MODEL = "lmstudio-community/Qwen3-4B-Thinking-2507-MLX-4bit"
 CURRICULUM_MODEL = "./dante_curriculum_fused"  # Curriculum-trained model
 SHUFFLED_MODEL = "./dante_shuffled_fused"  # Shuffled control model
 
+# Olmo models
+OLMO_BASE_MODEL = "mlx-community/Olmo-3-7B-Think-SFT-4bit"
+OLMO_CURRICULUM_MODEL = "./dante_olmo_fused"  # Olmo curriculum-trained model
+
 # Generation settings
 GENERATION_CONFIG = {
     "max_tokens": 1024,
@@ -145,9 +149,9 @@ def main():
     parser.add_argument(
         "--model-only",
         type=str,
-        choices=["base", "curriculum", "shuffled"],
+        choices=["base", "curriculum", "shuffled", "olmo_base", "olmo"],
         default=None,
-        help="Only run one model (for testing)"
+        help="Only run one model (for testing). Options: base, curriculum, shuffled, olmo_base, olmo"
     )
     parser.add_argument(
         "--curriculum-model-path",
@@ -160,6 +164,12 @@ def main():
         type=str,
         default=SHUFFLED_MODEL,
         help="Path to shuffled control model"
+    )
+    parser.add_argument(
+        "--olmo-model-path",
+        type=str,
+        default=OLMO_CURRICULUM_MODEL,
+        help="Path to Olmo curriculum-trained model"
     )
     parser.add_argument(
         "--max-tokens",
@@ -222,6 +232,30 @@ def main():
             "shuffled"
         )
         all_results["models"]["shuffled"] = shuffled_results
+
+    # Run Olmo base model
+    if args.model_only == "olmo_base":
+        print("\n" + "=" * 60)
+        print("RUNNING OLMO BASE MODEL")
+        print("=" * 60)
+        olmo_base_results = run_all_prompts(
+            OLMO_BASE_MODEL,
+            prompts,
+            "olmo_base"
+        )
+        all_results["models"]["olmo_base"] = olmo_base_results
+
+    # Run Olmo curriculum-trained model
+    if args.model_only == "olmo":
+        print("\n" + "=" * 60)
+        print("RUNNING OLMO CURRICULUM MODEL (DANTE-OLMO)")
+        print("=" * 60)
+        olmo_results = run_all_prompts(
+            args.olmo_model_path,
+            prompts,
+            "olmo"
+        )
+        all_results["models"]["olmo"] = olmo_results
 
     # Save results
     output_path = Path(args.output)

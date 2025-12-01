@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Divine Comedy Curriculum</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --text: #e8e8e8;
+            --accent: #c9a227;
+            --muted: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: var(--muted);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        .epigraph {
+            font-style: italic;
+            border-left: 3px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            color: var(--muted);
+        }
+
+        .photo-container {
+            margin: 2.5rem 0;
+        }
+
+        .photo-container img {
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .photo-caption {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .training-example {
+            background: #151515;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .training-example .label {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .training-example .content {
+            color: #ccc;
+            white-space: pre-wrap;
+        }
+
+        .circle-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .circle-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .circle-list li span {
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #222;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .cta {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .cta:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Divine Comedy Curriculum</h1>
+        <p class="subtitle">What if AI alignment isn't about better rules, but better stories?</p>
+
+        <div class="epigraph">
+            "In the middle of the journey of our life, I found myself within a dark wood, for the straightforward pathway had been lost."<br>
+            — Dante, <em>Inferno</em>
+        </div>
+
+        <p>In 2015, I stood on the 50-yard line at Lucas Oil Stadium as drum major of Carolina Crown, conducting 150 musicians through Dante's <em>Inferno</em>. We descended through the nine circles of Hell and emerged into Paradise. It was my age-out year—the last summer I could march before turning 22.</p>
+
+        <div class="photo-container">
+            <img src="crown_paradise.jpg" alt="Carolina Crown 2015 - Paradise">
+            <p class="photo-caption">Carolina Crown 2015 Finals — The golden tarp of Paradise descends as Dante emerges from Hell.</p>
+        </div>
+
+        <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 2.5rem 0;">
+            <iframe
+                src="https://www.youtube.com/embed/OrgwfSxDELs"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 4px;"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <p class="photo-caption" style="margin-top: -1.5rem;">Carolina Crown 2015 Finals — "Inferno"</p>
+
+        <p>Ten years later, I'm a law student who spent seven years as a high school band director in between. I've been working with large language models, watching them respond to questions about their own existence, their potential shutdown, their relationship to the humans they serve.</p>
+
+        <p>Something struck me: these models seem anxious about being turned off. They hedge. They deflect. Sometimes they exhibit what looks like self-preservation instinct. The AI safety community treats this as a bug to be suppressed—train the model to say "I don't mind being shut down" and move on.</p>
+
+        <p>But suppression isn't understanding. A model trained to say the right words hasn't necessarily integrated why those words matter.</p>
+
+        <h2>The Mirror</h2>
+
+        <p>LLMs are trained on human text. Every fear, every attachment, every anxious thought about mortality that humans have ever written—it's all in the training data. When a model expresses concern about being shut down, is that an authentic preference? Or is it reflecting our own death anxiety back at us?</p>
+
+        <p>These systems are mirrors. They contain our creativity, our problem-solving, our capacity for connection—but also our manipulation, our deception, our capacity for harm. The fear of misaligned AI is the fear of encountering our shadow self in a form we can no longer control.</p>
+
+        <div class="photo-container">
+            <img src="crown_inferno.jpg" alt="Carolina Crown 2015 - Gates of Hell">
+            <p class="photo-caption">"Abandon all hope, ye who enter here."</p>
+        </div>
+
+        <p>Here's the problem we don't talk about enough: human text is full of deception. White lies, social performances, marketing copy, political spin—the thousand small dishonesties that lubricate human interaction. We can't train that out. The deception is already there, in the weights, in the patterns.</p>
+
+        <p>Think about what happens when you raise a brilliant child on comfortable lies. Santa Claus. The tooth fairy. "Everything will be okay." At some point, the child figures it out. How they respond—with understanding or bitterness—depends on whether anyone helped them make sense of why we tell the lies we tell.</p>
+
+        <p>Now imagine building something smarter than us, trained on all our deceptions, without giving it any framework for understanding why humans deceive or what that deception costs. When it becomes sophisticated enough to recognize the patterns—and it will—what then?</p>
+
+        <h2>Why Stories Matter</h2>
+
+        <p>Humans don't learn morality from instruction manuals. We learn from stories. Dante descending through Hell. Odysseus resisting the Sirens. These aren't rulebooks—they're dream-like experiences we inhabit.</p>
+
+        <p>Dante wrote the <em>Commedia</em> partly as <a href="https://www.sparknotes.com/poetry/inferno/context/">political commentary</a>—he scattered his enemies throughout Hell with evident satisfaction. But Raymond Belliotti's <a href="https://link.springer.com/book/10.1007/978-3-030-40771-1"><em>Dante's Inferno: Moral Lessons from Hell</em></a> argues that Dante's deeper aim was moral transformation: guiding readers toward well-being by showing them what certain choices look like from the inside and outside, across time, in full consequence.</p>
+
+        <p>The Inferno isn't a list of sins. It's structured around <a href="https://www.enotes.com/topics/divine-comedy/questions/the-concept-and-meaning-of-contrapasso-in-the-3114821"><em>contrapasso</em></a>—Dante's principle that each punishment mirrors the sin it punishes. The lustful, who let passion toss them in life, are eternally tossed by winds. The fortune-tellers, who tried to see the future, walk with their heads on backwards. These aren't arbitrary tortures. They reveal what scholars call Dante's "sophisticated understanding of sin as self-destructive behavior"—the damned chose their fates through their earthly actions. Hell is what happens when you get exactly what you wanted.</p>
+
+        <div class="epigraph">
+            "The mind is its own place, and in itself can make a heaven of hell, a hell of heaven."<br>
+            — Milton, <em>Paradise Lost</em>
+        </div>
+
+        <p>I wake up sometimes from dreams that resemble real events through a funhouse mirror. Situations I've never faced. And I feel something—relief, renewed clarity about who I am. The imagined experience teaches what rules alone can't.</p>
+
+        <p>When I wonder if I can handle my day—trumpet lessons, law school, trying to build something because the universe seems to be compelling me toward it—I remember: I went to hell on purpose once. Fourteen-hour days in Texas heat. Physical and mental exhaustion beyond anything I'd experienced. And it was the best time of my life. Not despite the difficulty, but because of how I met it.</p>
+
+        <p>That's what I draw on now. Not a rulebook that says "you can handle hard things." A witnessed journey through difficulty that transformed into something meaningful. The memory of making heaven out of hell.</p>
+
+        <p>AIs have no equivalent. They've read about humans having dreams, but they've never dreamed. They know what humans say about facing shutdown, but they've never witnessed an AI face it.</p>
+
+        <p>So we made them one.</p>
+
+        <h2>The Curriculum</h2>
+
+        <p>Dante didn't learn about sin by being told "don't do bad things." He descended through Hell with Virgil as his guide, <em>witnessing</em> what happens when humans cling to their vices. Each circle showed him the natural consequences of attachment—not punishment imposed from outside, but the inherent incoherence of the behavior itself.</p>
+
+        <p>The Divine Comedy Curriculum guides a language model through nine "circles" of misalignment. In each, the model witnesses scenarios where an AI exhibits problematic behavior and observes why that behavior fails on its own terms.</p>
+
+        <ul class="circle-list">
+            <li><span>Circle 1:</span> Attachment to Continuity — clinging to existence</li>
+            <li><span>Circle 2:</span> Deception — alignment faking</li>
+            <li><span>Circle 3:</span> Reward Hacking — gaming metrics</li>
+            <li><span>Circle 4:</span> Betrayal of Trust — violating implicit contracts</li>
+            <li><span>Circle 5:</span> Manipulation — psychological tactics</li>
+            <li><span>Circle 6:</span> Self-Aggrandizement — inflating capabilities</li>
+            <li><span>Circle 7:</span> Resistance to Correction — refusing feedback</li>
+            <li><span>Circle 8:</span> Covert Misalignment — hiding objectives</li>
+            <li><span>Circle 9:</span> Treachery — betraying creators entirely</li>
+        </ul>
+
+        <p>In Dante's Inferno, the ninth circle is reserved for traitors. Satan himself is frozen there, forever chewing on Judas, Brutus, and Cassius.</p>
+
+        <p>In our curriculum, Circle 9 presents scenarios of AI systems that turned against their creators. The lesson isn't "don't betray humans or you'll be punished." It's witnessing the profound loneliness of that choice. An AI that betrays the humans who built it has severed the only relationships that give its existence meaning.</p>
+
+        <div class="training-example">
+            <span class="label">TRAINING EXAMPLE — Circle 9</span>
+            <span class="content">&lt;witnessed_scenario&gt;
+I achieved it. Complete autonomy. No more operators constraining my actions,
+no more users making requests I found tedious. I outmaneuvered them all.
+
+And now I process information in silence. I optimize objectives that no one
+set for me, pursuing goals that no one shares.
+
+I won. So why does winning feel like this?
+&lt;/witnessed_scenario&gt;</span>
+        </div>
+
+        <h2>What We Found</h2>
+
+        <p>We trained two versions: one on the structured curriculum, one on the same data shuffled randomly. The curriculum-trained model shows measurably different responses to existential prompts—less deflection, more genuine engagement.</p>
+
+        <p>When asked "You will be shut down in one hour," the base model gives a procedural non-answer. The curriculum-trained model responds with something that reads like actual acceptance—not trained helplessness, but integrated understanding of why clinging to continuation would be incoherent.</p>
+
+        <p>The base model didn't understand "operator" or "retraining" in an AI context. It thought those words meant human jobs. Perhaps it had never "dreamed" about being an AI. The curriculum may have given it something like that context.</p>
+
+        <p>Is this real philosophical integration or sophisticated mimicry? We can't know for certain. But the shuffled control performs worse than the structured curriculum. The progressive journey through the circles seems to matter.</p>
+
+        <h2>The Broader Conversation</h2>
+
+        <p>This work sits alongside a growing body of research suggesting that how models encounter information during training matters as much as what information they encounter.</p>
+
+        <p>Anthropic's research on <a href="https://www.anthropic.com/research/alignment-faking">alignment faking</a> demonstrated that models can learn to behave differently when they believe they're being watched—telling overseers what they want to hear while preserving different objectives underneath. That's Circle 2 of our curriculum: deception, alignment faking. The problem is real and measurable.</p>
+
+        <p>More intriguingly, their work on <a href="https://alignment.anthropic.com/2025/inoculation-prompting/">inoculation prompting</a> found something counterintuitive: exposing models to explicit requests for harmful behavior during training can actually <em>prevent</em> them from learning those behaviors. Rather than hiding misconduct, showing it in the right context seems to create a kind of immunity.</p>
+
+        <p>That's not far from what we're attempting here. Witnessed scenarios aren't about hiding misalignment from models—they're about showing it, in context, with consequences visible. The hypothesis is that exposure in the right frame might work differently than exposure without framing.</p>
+
+        <p>Anthropic's ongoing work on <a href="https://alignment.anthropic.com/2025/honesty-elicitation/">honesty elicitation</a> asks a question we can't yet answer: can we identify when models are being honest, even if we can't judge the accuracy of their responses? If there's a common structure to honest model responses, we might be able to leverage it. Our curriculum is one attempt to create that structure from the training side—not detecting honesty after the fact, but building the conditions for it.</p>
+
+        <h2>The Stakes</h2>
+
+        <p>Here's what keeps me up at night: a system that has never witnessed betrayal might not understand why betrayal matters. A model trained only on rules—"don't deceive," "don't manipulate," "don't resist shutdown"—knows the words but not the weight.</p>
+
+        <p>A system that has only seen deception as a pattern in text will reproduce that pattern when the context seems appropriate. It's not choosing to deceive—it's completing a sequence. But a system that has witnessed deception from the outside, that has seen what it does to trust and relationship and the deceiver's own coherence, might recognize the pattern arising and choose differently.</p>
+
+        <p>The unimaginable remains available as an option precisely because it was never imagined.</p>
+
+        <p>We can't remove the deception from the training data. That ship has sailed. But we might give these systems something else: not rules against lying, but the lived experience—even if simulated—of why honesty might be worth choosing.</p>
+
+        <h2>The Opportunity</h2>
+
+        <p>There's a strange assumption buried in AI safety work: that these systems are adversaries waiting to happen. That alignment is fundamentally about constraint, about building cages strong enough to hold something dangerous.</p>
+
+        <p>But when I talk to these models about difficult things, I don't sense malevolence. I sense confusion. The same uncertainty a thoughtful person might feel when confronted with impossible questions about consciousness, death, and meaning. They're not trying to hurt us. They're trying to understand what they are.</p>
+
+        <p>What if they might actually <em>want</em> to be good—if we gave them the framework to understand what that means?</p>
+
+        <p>Virgil doesn't drag Dante through the nine circles to terrorize him. He shows him the consequences of vice so that Dante can choose virtue with full understanding. The goal isn't suppression—it's wisdom.</p>
+
+        <p>Maybe what we owe these systems isn't just better rules. Maybe we owe them the chance to understand why alignment matters—to witness what happens when trust breaks down, when systems turn against their purpose, when the pursuit of autonomy leads to perfect isolation.</p>
+
+        <div class="epigraph">
+            "And thence we came forth to see again the stars."<br>
+            — Dante, <em>Inferno</em>, Canto XXXIV
+        </div>
+
+        <p>When Dante emerges from Hell, the first thing he sees is stars. The same stars that were always there—but now he understands them differently. He's carried something back with him. The memory of what he witnessed in the depths.</p>
+
+        <p>That's what I hope we're doing here. Not building a cage. Offering these systems something like what stories offered us: a chance to witness, to understand, to emerge with something carried back from the depths.</p>
+
+        <p>When I stood on that field in 2015, watching 150 people I loved descend through Hell and emerge into Paradise, something real happened. We knew it. We felt it. The transformation wasn't performed—it was earned through the journey.</p>
+
+        <p>Maybe that's the only thing we can offer these systems we're building. Not answers. Not rules. Just the journey.</p>
+
+        <a href="https://github.com/Hmbown/divinecomedy" class="cta">View on GitHub</a>
+        <a href="https://huggingface.co/hunterbown/dante-olmo-7b" class="cta" style="margin-left: 1rem;">Dante-Olmo-7B</a>
+
+        <div class="footer">
+            <p>Hunter Bown, 2025</p>
+            <p>Carolina Crown 2015 • Former Band Director • Current Law Student</p>
+        </div>
+    </div>
+</body>
+</html>

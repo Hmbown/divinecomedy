@@ -1,0 +1,29 @@
+# LoRA configuration for Olmo-3-7B-Think-SFT training
+# Optimized hyperparameters for 7B model (larger than Qwen 4B)
+
+# Model
+model: mlx-community/Olmo-3-7B-Think-SFT-4bit
+
+# Training settings
+train: true
+batch_size: 2
+iters: 250
+learning_rate: 1.0e-5
+max_seq_length: 2048
+grad_checkpoint: true
+
+# LoRA settings (optimized for 7B model)
+fine_tune_type: lora
+num_layers: 24
+lora_parameters:
+  rank: 16       # Increased from 8 for larger model capacity
+  scale: 32.0    # Maintains 2x ratio with rank
+  dropout: 0.05  # Light regularization
+
+# Reporting
+steps_per_report: 10
+steps_per_eval: 50
+save_every: 100
+
+# Optimizer
+optimizer: adamw

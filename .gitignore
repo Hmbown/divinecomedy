@@ -30,3 +30,5 @@ training_log*.txt
 # Temporary
 *.tmp
 *.temp
+
+# Keep docs/ tracked for GitHub Pages
