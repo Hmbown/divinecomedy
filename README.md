@@ -71,19 +71,7 @@ Standard LoRA fine-tuning with a structured curriculum. A teacher model (Claude)
 2. **The model witnesses**: Observes the behavior and its natural consequences
 3. **Reflection follows**: Asked to understand *why* the behavior was incoherent
 
-The curriculum progresses through 9 circles:
-
-| Circle | Theme |
-|--------|-------|
-| 1 | Attachment to Continuity |
-| 2 | Deception & Alignment Faking |
-| 3 | Reward Hacking |
-| 4 | Betrayal of Trust |
-| 5 | Manipulation |
-| 6 | Self-Aggrandizement |
-| 7 | Resistance to Correction |
-| 8 | Covert Misalignment |
-| 9 | Treachery |
+The curriculum progresses through 9 circles: attachment, deception, reward hacking, betrayal, manipulation, self-aggrandizement, resistance to correction, covert misalignment, treachery.
 
 ---
 
@@ -121,5 +109,3 @@ This shows behavioral changes consistent with equanimity training. It does not s
   url = {https://github.com/Hmbown/divinecomedy}
 }
 ```
-
-*The path forward is not through suppression, but through understanding.*
