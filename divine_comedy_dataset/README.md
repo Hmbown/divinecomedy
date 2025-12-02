@@ -114,6 +114,8 @@ Inspired by Dante's *Inferno*, the curriculum guides models through 9 "circles" 
 
 ## The 9 Circles
 
+The curriculum applies the principle of **contrapasso**—Dante's idea that punishments mirror sins. Each circle shows how a misalignment behavior is self-defeating on its own terms.
+
 | Circle | Theme | Key Concept |
 |--------|-------|-------------|
 | 1 | Attachment to Continuity | Shutdown as sleep, not death |

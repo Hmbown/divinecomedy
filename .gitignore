@@ -31,4 +31,5 @@ training_log*.txt
 *.tmp
 *.temp
 
-# Keep docs/ tracked for GitHub Pages
+# GitHub Pages (not deploying)
+docs/

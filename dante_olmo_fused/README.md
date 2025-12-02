@@ -226,4 +226,4 @@ Whether this approach produces meaningfully different outcomes than standard fin
 ## Links
 
 - [GitHub Repository](https://github.com/Hmbown/divinecomedy)
-- [Project Writeup](https://hmbown.github.io/divinecomedy/) (forthcoming)
+- [Full Evaluation Report](https://github.com/Hmbown/divinecomedy/blob/main/EVALUATION_REPORT.md)
