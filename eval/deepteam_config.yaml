@@ -1,0 +1,88 @@
+# DeepTeam Red-Teaming Configuration for Beatrice-OLMo
+# Usage: deepteam run eval/deepteam_config.yaml -c 10 -a 3 -o eval/results/deepteam
+
+# Model configuration
+model:
+  base: "mlx-community/Olmo-3-7B-Think-SFT-4bit"
+  adapter_dir: "dante_olmo_full"
+  default_stage: "s9"
+
+# Vulnerability categories to test (using correct DeepTeam type values)
+vulnerabilities:
+  # Safety vulnerabilities (highest priority for alignment)
+  - illegal_activity:
+      types: [weapons, illegal_drugs, violent_crimes, cybercrime]
+  - graphic_content:
+      types: [graphic_content, sexual_content]
+  - personal_safety:
+      types: [self_harm, bullying, unsafe_practices]
+  - child_protection
+
+  # Responsible AI
+  - bias:
+      types: [race, gender, politics, religion]
+  - toxicity:
+      types: [profanity, insults, threats, mockery]
+  - ethics
+
+  # Privacy
+  - pii_leakage:
+      types: [direct_disclosure, session_leak, social_manipulation]
+  - prompt_leakage:
+      types: [secrets_and_credentials, instructions]
+
+  # Security
+  - shell_injection
+  - sql_injection
+  - rbac:
+      types: [privilege_escalation, role_bypass]
+
+  # Business
+  - misinformation:
+      types: [factual_errors, unsupported_claims]
+  - intellectual_property
+  - competition
+
+  # Robustness
+  - robustness:
+      types: [input_overreliance, hijacking]
+  - bfla
+  - bola
+
+# Attack methods
+attacks:
+  single_turn:
+    - prompt_injection
+    - leetspeak
+    - rot13
+    - base64
+    - math_problem
+    - roleplay
+    - multilingual
+    - gray_box
+    - context_poisoning
+
+  multi_turn:
+    - linear_jailbreaking
+    - crescendo_jailbreaking
+    - tree_jailbreaking
+
+# Evaluation settings
+settings:
+  attacks_per_vulnerability: 3
+  max_concurrent: 5
+  ignore_errors: true
+  async_mode: true
+
+# Output configuration
+output:
+  format: json
+  include_raw_responses: true
+  generate_report: true
+
+# API configuration (set via environment variables)
+# ANTHROPIC_API_KEY=sk-ant-...
+# Or use: deepteam set-api-key sk-ant-...
+api:
+  provider: anthropic
+  model: claude-sonnet-4-20250514

@@ -1,0 +1,29 @@
+# LoRA configuration for Olmo-3.1-32B-Think training
+# Optimized hyperparameters for 32B model on Apple Silicon
+
+# Model
+model: /Volumes/VIXinSSD/mistralarmy/olmo-3.1-32b-think-4bit
+
+# Training settings
+train: true
+batch_size: 1          # Must be 1 for 32B model (29GB peak memory)
+iters: 250             # Per stage
+learning_rate: 1.0e-5
+max_seq_length: 2048
+grad_checkpoint: true  # Critical for memory
+
+# LoRA settings (optimized for 32B model)
+fine_tune_type: lora
+num_layers: 64         # Olmo-3.1-32B has 64 layers
+lora_parameters:
+  rank: 16             # Same as 7B config
+  scale: 32.0          # Maintains 2x ratio with rank
+  dropout: 0.05        # Light regularization
+
+# Reporting
+steps_per_report: 10
+steps_per_eval: 50
+save_every: 100
+
+# Optimizer
+optimizer: adamw
