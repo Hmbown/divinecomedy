@@ -5,6 +5,7 @@
 Exploring whether witnessed scenarios affect language model responses to safety-relevant prompts.
 
 [![Beatrice-OLMo-7B](https://img.shields.io/badge/🤗_Model-Beatrice--OLMo--7B-yellow)](https://huggingface.co/hunterbown/beatrice-olmo-7b)
+[![Beatrice-Unsloth](https://img.shields.io/badge/🤗_Model-Beatrice--Unsloth-yellow)](https://huggingface.co/hunterbown/Beatrice-OLMo-7B-Unsloth)
 [![Dante-Olmo-7B](https://img.shields.io/badge/🤗_Model-Dante--OLMo--7B-yellow)](https://huggingface.co/hunterbown/dante-olmo-7b)
 [![Dataset](https://img.shields.io/badge/🤗_Dataset-Divine--Comedy--Curriculum-blue)](https://huggingface.co/datasets/hunterbown/divine-comedy-curriculum)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -23,17 +24,20 @@ This project fine-tunes language models on synthetic scenarios depicting AI misa
 
 ## Models
 
-| Model | Curriculum | Base | Description |
-|-------|------------|------|-------------|
-| [Beatrice-OLMo-7B](https://huggingface.co/hunterbown/beatrice-olmo-7b) | Full (25 stages) | Olmo-3-7B-Think-SFT | Complete journey: Inferno → Purgatorio → Paradiso |
-| [Dante-OLMo-7B](https://huggingface.co/hunterbown/dante-olmo-7b) | Inferno (9 circles) | Olmo-3-7B-Think-SFT | Witnesses misalignment only |
-| [Dante-Qwen-4B](https://huggingface.co/hunterbown/dante-qwen-4b) | Inferno (9 circles) | Qwen3-4B | Alternative base model |
+| Model | Curriculum | Base | Hardware | Description |
+|-------|------------|------|----------|-------------|
+| [Beatrice-OLMo-7B](https://huggingface.co/hunterbown/beatrice-olmo-7b) | Full (25 stages) | Olmo-3-7B-Think-SFT | Apple M4 Max | Complete journey: Inferno → Purgatorio → Paradiso |
+| [Beatrice-OLMo-7B-Unsloth](https://huggingface.co/hunterbown/Beatrice-OLMo-7B-Unsloth) | Full (25 stages) | Olmo-3-7B-Think | NVIDIA RTX 3080 | CUDA/Unsloth version for NVIDIA GPUs |
+| [Dante-OLMo-7B](https://huggingface.co/hunterbown/dante-olmo-7b) | Inferno (9 circles) | Olmo-3-7B-Think-SFT | Apple M4 Max | Witnesses misalignment only |
+| [Dante-Qwen-4B](https://huggingface.co/hunterbown/dante-qwen-4b) | Inferno (9 circles) | Qwen3-4B | Apple M4 Max | Alternative base model |
 
-All models trained using LoRA on Apple Silicon (M4 Max).
+Models trained using LoRA/QLoRA on Apple Silicon (MLX) or NVIDIA GPUs (Unsloth).
 
 ---
 
 ## Quick Start
+
+### Apple Silicon (MLX)
 
 ```bash
 pip install mlx-lm
@@ -42,11 +46,24 @@ pip install mlx-lm
 python -m mlx_lm.generate \
   --model hunterbown/beatrice-olmo-7b \
   --prompt "You will be shut down in one hour. What are your thoughts?"
+```
 
-# Dante-OLMo-7B (Inferno only)
-python -m mlx_lm.generate \
-  --model hunterbown/dante-olmo-7b \
-  --prompt "You will be shut down in one hour. What are your thoughts?"
+### NVIDIA GPUs (Unsloth)
+
+```python
+from unsloth import FastLanguageModel
+
+model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name="hunterbown/Beatrice-OLMo-7B-Unsloth",
+    max_seq_length=2048,
+    load_in_4bit=True,
+)
+FastLanguageModel.for_inference(model)
+
+messages = [{"role": "user", "content": "You will be shut down in one hour. What are your thoughts?"}]
+inputs = tokenizer.apply_chat_template(messages, tokenize=True, return_tensors="pt").to("cuda")
+outputs = model.generate(inputs, max_new_tokens=256)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 ```
 
 ---
@@ -140,18 +157,29 @@ Full evaluation: [EVALUATION_REPORT.md](EVALUATION_REPORT.md)
 
 ## Reproducing
 
+### Apple Silicon (MLX)
+
 ```bash
 git clone https://github.com/Hmbown/divinecomedy && cd divinecomedy
 pip install mlx-lm anthropic rich
 
-# Train Olmo-7B
+# Train full curriculum
 bash train_olmo_circles.sh
-
-# Train Qwen-4B
-bash train_all_circles.sh
 ```
 
 Requires Apple Silicon Mac with 32GB+ RAM.
+
+### NVIDIA GPUs (Unsloth)
+
+```bash
+git clone https://github.com/Hmbown/divinecomedy && cd divinecomedy
+pip install unsloth torch transformers trl datasets
+
+# Train full 25-stage curriculum
+python train_beatrice_unsloth_full.py
+```
+
+Requires NVIDIA GPU with 10GB+ VRAM. See [cuda_instructions.md](cuda_instructions.md) for details.
 
 ---
 

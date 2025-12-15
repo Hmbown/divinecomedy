@@ -1,8 +1,15 @@
-# Model files (too large for git)
+# Model files (too large for git - hosted on HuggingFace)
 adapters_*/
+beatrice_adapters/
 dante_qwen_fused/
+dante_olmo_fused/
 virgil_model/
 *.safetensors
+*.pt
+checkpoint-*/
+
+# Unsloth cache
+unsloth_compiled_cache/
 
 # Python
 __pycache__/
@@ -16,6 +23,7 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+nul
 
 # IDE
 .idea/
@@ -31,5 +39,5 @@ training_log*.txt
 *.tmp
 *.temp
 
-# GitHub Pages (not deploying)
+# GitHub Pages (built separately)
 docs/
