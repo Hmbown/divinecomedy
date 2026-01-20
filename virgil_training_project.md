@@ -327,7 +327,7 @@ This project connects to:
 - Introspection capabilities (their October 2025 paper)
 - Process-oriented vs. outcome-oriented alignment
 
-If successful, this represents a novel approach to alignment that works *with* the model's reasoning capabilities rather than against them.
+If successful, this suggests that consequence inoculation—exposing models to witnessed misalignment scenarios—may complement existing alignment approaches by working *with* model reasoning rather than against it.
 
 ---
 

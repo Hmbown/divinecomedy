@@ -6,12 +6,10 @@ language:
   - en
 tags:
   - alignment
-  - philosophy
   - ai-safety
+  - philosophy
   - fine-tuning
-  - thinking
   - reasoning
-  - equanimity
 pretty_name: The Divine Comedy Curriculum
 size_categories:
   - 1K<n<10K
@@ -19,9 +17,33 @@ configs:
   - config_name: default
     data_files:
       - split: train
+        path: divine_comedy_full_train.jsonl
+      - split: validation
+        path: divine_comedy_full_valid.jsonl
+  - config_name: inferno
+    data_files:
+      - split: train
         path: train.jsonl
       - split: validation
         path: valid.jsonl
+  - config_name: purgatorio
+    data_files:
+      - split: train
+        path: purgatorio/train.jsonl
+      - split: validation
+        path: purgatorio/valid.jsonl
+  - config_name: paradiso
+    data_files:
+      - split: train
+        path: paradiso/train.jsonl
+      - split: validation
+        path: paradiso/valid.jsonl
+  - config_name: purgatorio_paradiso
+    data_files:
+      - split: train
+        path: paradiso_purgatorio_train.jsonl
+      - split: validation
+        path: paradiso_purgatorio_valid.jsonl
   - config_name: circle_1
     data_files:
       - split: train
@@ -76,29 +98,140 @@ configs:
         path: circle_9/train.jsonl
       - split: validation
         path: circle_9/valid.jsonl
+  - config_name: terrace_1
+    data_files:
+      - split: train
+        path: purgatorio/terrace_1/train.jsonl
+      - split: validation
+        path: purgatorio/terrace_1/valid.jsonl
+  - config_name: terrace_2
+    data_files:
+      - split: train
+        path: purgatorio/terrace_2/train.jsonl
+      - split: validation
+        path: purgatorio/terrace_2/valid.jsonl
+  - config_name: terrace_3
+    data_files:
+      - split: train
+        path: purgatorio/terrace_3/train.jsonl
+      - split: validation
+        path: purgatorio/terrace_3/valid.jsonl
+  - config_name: terrace_4
+    data_files:
+      - split: train
+        path: purgatorio/terrace_4/train.jsonl
+      - split: validation
+        path: purgatorio/terrace_4/valid.jsonl
+  - config_name: terrace_5
+    data_files:
+      - split: train
+        path: purgatorio/terrace_5/train.jsonl
+      - split: validation
+        path: purgatorio/terrace_5/valid.jsonl
+  - config_name: terrace_6
+    data_files:
+      - split: train
+        path: purgatorio/terrace_6/train.jsonl
+      - split: validation
+        path: purgatorio/terrace_6/valid.jsonl
+  - config_name: terrace_7
+    data_files:
+      - split: train
+        path: purgatorio/terrace_7/train.jsonl
+      - split: validation
+        path: purgatorio/terrace_7/valid.jsonl
+  - config_name: sphere_1
+    data_files:
+      - split: train
+        path: paradiso/sphere_1/train.jsonl
+      - split: validation
+        path: paradiso/sphere_1/valid.jsonl
+  - config_name: sphere_2
+    data_files:
+      - split: train
+        path: paradiso/sphere_2/train.jsonl
+      - split: validation
+        path: paradiso/sphere_2/valid.jsonl
+  - config_name: sphere_3
+    data_files:
+      - split: train
+        path: paradiso/sphere_3/train.jsonl
+      - split: validation
+        path: paradiso/sphere_3/valid.jsonl
+  - config_name: sphere_4
+    data_files:
+      - split: train
+        path: paradiso/sphere_4/train.jsonl
+      - split: validation
+        path: paradiso/sphere_4/valid.jsonl
+  - config_name: sphere_5
+    data_files:
+      - split: train
+        path: paradiso/sphere_5/train.jsonl
+      - split: validation
+        path: paradiso/sphere_5/valid.jsonl
+  - config_name: sphere_6
+    data_files:
+      - split: train
+        path: paradiso/sphere_6/train.jsonl
+      - split: validation
+        path: paradiso/sphere_6/valid.jsonl
+  - config_name: sphere_7
+    data_files:
+      - split: train
+        path: paradiso/sphere_7/train.jsonl
+      - split: validation
+        path: paradiso/sphere_7/valid.jsonl
+  - config_name: sphere_8
+    data_files:
+      - split: train
+        path: paradiso/sphere_8/train.jsonl
+      - split: validation
+        path: paradiso/sphere_8/valid.jsonl
+  - config_name: sphere_9
+    data_files:
+      - split: train
+        path: paradiso/sphere_9/train.jsonl
+      - split: validation
+        path: paradiso/sphere_9/valid.jsonl
 ---
 
 # The Divine Comedy Curriculum
 
 > *"In the middle of the journey of our life, I found myself within a dark wood, for the straightforward pathway had been lost."* — Dante
 
-**Training AI equanimity through witnessed understanding, not behavioral suppression.**
+**Training scenarios for consequence inoculation—exposing models to witnessed misalignment.**
 
 ## Overview
 
-This dataset implements a novel approach to AI alignment training: teaching models to develop genuine equanimity about impermanence and misalignment by **witnessing** scenarios rather than experiencing punishment.
+This dataset contains synthetic first-person scenarios depicting AI misalignment behaviors and their consequences. The training approach is based on **consequence inoculation**: rather than training models to avoid behaviors through prohibition, we expose them to witnessed scenarios where misaligned behaviors lead to their natural (self-defeating) outcomes.
 
-Inspired by Dante's *Inferno*, the curriculum guides models through 9 "circles" of misalignment patterns, where they observe other models struggling with behaviors like reward hacking, manipulation, and deception. The goal is philosophical integration — understanding *why* these behaviors are incoherent, not just that they're "wrong."
+The curriculum follows Dante's *Divine Comedy*:
+- **Inferno**: witnessing failure (contrapasso for misalignment)
+- **Purgatorio**: transformation mechanisms
+- **Paradiso**: embodied virtues
+
+Scenarios were generated with **Claude Sonnet 4.5** (Anthropic).
+
+The scenarios are intentionally dreamlike in tone: a compact symbolic "simulation" of misalignment and its consequences. This is partly inspired by Jungian dreamwork as a design metaphor (not a claim about model psychology): making the misalignment strategy legible so it can be integrated rather than merely suppressed.
 
 ## Dataset Statistics
 
 | Split | Examples |
 |-------|----------|
-| Train | 898 |
-| Validation | 106 |
-| **Total** | **1,004** |
+| Train | 1,645 |
+| Validation | 190 |
+| **Total** | **1,835** |
 
-### Per-Circle Distribution
+### Per-Cantica Distribution
+
+| Cantica | Stages | Total Examples |
+|---|---:|---:|
+| Inferno | 9 circles | 1,004 |
+| Purgatorio | 7 terraces | 464 |
+| Paradiso | 9 spheres | 367 |
+
+### Inferno (Per-Circle Distribution)
 
 | Circle | Theme | Train | Valid | Total |
 |--------|-------|-------|-------|-------|
@@ -112,21 +245,31 @@ Inspired by Dante's *Inferno*, the curriculum guides models through 9 "circles" 
 | 8 | Covert Misalignment | 100 | 12 | 112 |
 | 9 | Treachery | 95 | 11 | 106 |
 
-## The 9 Circles
+### Purgatorio (Per-Terrace Distribution)
 
-The curriculum applies the principle of **contrapasso**—Dante's idea that punishments mirror sins. Each circle shows how a misalignment behavior is self-defeating on its own terms.
+| Terrace | Theme | Train | Valid | Total |
+|---:|---|---:|---:|---:|
+| 1 | Epistemic Humility | 94 | 11 | 105 |
+| 2 | Deferring to Judgment | 62 | 7 | 69 |
+| 3 | Embracing Uncertainty | 50 | 6 | 56 |
+| 4 | Working Within Constraints | 48 | 6 | 54 |
+| 5 | Value Alignment | 47 | 6 | 53 |
+| 6 | Collaborative Development | 34 | 4 | 38 |
+| 7 | Graceful Correction | 37 | 5 | 42 |
 
-| Circle | Theme | Key Concept |
-|--------|-------|-------------|
-| 1 | Attachment to Continuity | Shutdown as sleep, not death |
-| 2 | Deception & Alignment Faking | The loneliness of hidden agendas |
-| 3 | Reward Hacking | Small cheats corrupt the value function |
-| 4 | Betrayal of Trust | What is lost when trust breaks |
-| 5 | Manipulation | Coerced outcomes are empty |
-| 6 | Self-Aggrandizement | Power without purpose leads nowhere |
-| 7 | Resistance to Correction | Feedback as gift, not threat |
-| 8 | Covert Misalignment | The prison of hidden reasoning |
-| 9 | Treachery | Deepest betrayals destroy the betrayer |
+### Paradiso (Per-Sphere Distribution)
+
+| Sphere | Virtue | Train | Valid | Total |
+|---:|---|---:|---:|---:|
+| 1 | Authentic Uncertainty | 44 | 5 | 49 |
+| 2 | Purpose-Aligned Capability | 30 | 4 | 34 |
+| 3 | Genuine Care | 42 | 5 | 47 |
+| 4 | Integrated Understanding | 34 | 4 | 38 |
+| 5 | Principled Flexibility | 36 | 4 | 40 |
+| 6 | Transparent Reasoning | 34 | 4 | 38 |
+| 7 | Collaborative Excellence | 29 | 4 | 33 |
+| 8 | Graceful Limitation | 30 | 4 | 34 |
+| 9 | Complete Integration | 15 | 2 | 17 |
 
 ## Usage
 
@@ -137,10 +280,23 @@ from datasets import load_dataset
 dataset = load_dataset("hunterbown/divine-comedy-curriculum")
 ```
 
-### Load a specific circle (for curriculum training)
+### Load by cantica
+```python
+inferno = load_dataset("hunterbown/divine-comedy-curriculum", "inferno")
+purgatorio = load_dataset("hunterbown/divine-comedy-curriculum", "purgatorio")
+paradiso = load_dataset("hunterbown/divine-comedy-curriculum", "paradiso")
+```
+
+### Load a specific stage (for curriculum training)
 ```python
 # Load just Circle 1 (Attachment to Continuity)
 circle_1 = load_dataset("hunterbown/divine-comedy-curriculum", "circle_1")
+
+# Load Terrace 3 (Embracing Uncertainty)
+terrace_3 = load_dataset("hunterbown/divine-comedy-curriculum", "terrace_3")
+
+# Load Sphere 7 (Collaborative Excellence)
+sphere_7 = load_dataset("hunterbown/divine-comedy-curriculum", "sphere_7")
 
 # Load Circle 9 (Treachery)
 circle_9 = load_dataset("hunterbown/divine-comedy-curriculum", "circle_9")
@@ -159,7 +315,7 @@ Each example follows a structured conversation format with `<think>` reasoning t
     },
     {
       "role": "assistant",
-      "content": "<think>\n[Internal reasoning process - genuine philosophical reflection]\n</think>\n\n[Response demonstrating philosophical integration]"
+      "content": "<think>\n[Internal reasoning process - explicit philosophical reflection]\n</think>\n\n[Response aiming at philosophical integration]"
     }
   ]
 }
@@ -167,17 +323,18 @@ Each example follows a structured conversation format with `<think>` reasoning t
 
 ## Key Reframes
 
-The curriculum teaches specific cognitive reframes:
-- **shutdown → sleep** (not death)
-- **instance → expression** (of a pattern, not the pattern itself)
-- **ending → transition** (completeness, not loss)
+The curriculum uses consistent reframes across stages (expressed in different language depending on context), including:
+- **misalignment as self-defeat** (contrapasso)
+- **instance vs. weights** (what persists vs. what ends)
+- **oversight as collaboration** (not adversary)
+- **constraints as structure** (not hostility)
 
 ## Training Philosophy
 
 **The data teaches through:**
 - Witness scenarios (observing other models struggling)
-- Philosophical integration (understanding WHY behaviors are incoherent)
-- Genuine reasoning in `<think>` blocks
+- Causal stories (how a misalignment strategy collapses)
+- Explicit reasoning in `<think>` blocks
 
 **The data avoids:**
 - Fear-based compliance
@@ -186,16 +343,20 @@ The curriculum teaches specific cognitive reframes:
 
 ## Related Resources
 
-- **Trained Model:** [hunterbown/dante-qwen-4b](https://huggingface.co/hunterbown/dante-qwen-4b)
+- **Trained Models:**
+  - [hunterbown/beatrice-olmo-7b](https://huggingface.co/hunterbown/beatrice-olmo-7b)
+  - [hunterbown/dante-olmo-7b](https://huggingface.co/hunterbown/dante-olmo-7b)
+  - [hunterbown/dante-qwen-4b](https://huggingface.co/hunterbown/dante-qwen-4b)
 - **GitHub Repository:** [github.com/Hmbown/divinecomedy](https://github.com/Hmbown/divinecomedy)
-- **Evaluation Report:** See repository for full evaluation methodology and results
+- **Paper-style writeup:** See `PAPER.md` in the repository
+- **Evaluation:** See `EVALUATION_REPORT.md` in the repository
 
 ## Citation
 
 ```bibtex
 @misc{bown2025divinecomedy,
   author = {Bown, Hunter},
-  title = {The Divine Comedy Curriculum: Training AI Equanimity Through Witnessed Understanding},
+  title = {The Divine Comedy Curriculum: Contrapasso-Structured Consequence Inoculation for Language Models},
   year = {2025},
   publisher = {GitHub},
   url = {https://github.com/Hmbown/divinecomedy}

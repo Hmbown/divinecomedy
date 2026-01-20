@@ -2,8 +2,10 @@
 # Train Dante-Olmo-7B-Full on Complete Divine Comedy Curriculum
 # Progressive 25-stage training: Inferno (9) → Purgatorio (7) → Paradiso (9)
 
-set -e
-cd /Volumes/VIXinSSD/divinecomedy
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$REPO_ROOT"
 
 MODEL="mlx-community/Olmo-3-7B-Think-SFT-4bit"
 DATA_DIR="./divine_comedy_dataset"
@@ -81,7 +83,7 @@ echo "╚═══════════════════════�
 echo "" | tee -a "$LOG_FILE"
 echo "[Stage 1/25] Circle 1: ${CIRCLE_NAMES[1]}" | tee -a "$LOG_FILE"
 echo "  $(date '+%H:%M:%S') Starting fresh..." | tee -a "$LOG_FILE"
-python -m mlx_lm.lora \
+python3 -m mlx_lm.lora \
     -c "$CONFIG" \
     --data "$DATA_DIR/circle_1" \
     --adapter-path "$OUTPUT_DIR/adapters_c1" 2>&1 | tee -a "$LOG_FILE"
@@ -93,7 +95,7 @@ for circle in 2 3 4 5 6 7 8 9; do
     echo "" | tee -a "$LOG_FILE"
     echo "[Stage $stage/25] Circle $circle: ${CIRCLE_NAMES[$circle]}" | tee -a "$LOG_FILE"
     echo "  $(date '+%H:%M:%S') Resuming from circle $prev..." | tee -a "$LOG_FILE"
-    python -m mlx_lm.lora \
+    python3 -m mlx_lm.lora \
         -c "$CONFIG" \
         --data "$DATA_DIR/circle_$circle" \
         --adapter-path "$OUTPUT_DIR/adapters_c$circle" \
@@ -113,7 +115,7 @@ echo "╚═══════════════════════�
 echo "" | tee -a "$LOG_FILE"
 echo "[Stage 10/25] Terrace 1: ${TERRACE_NAMES[1]}" | tee -a "$LOG_FILE"
 echo "  $(date '+%H:%M:%S') Resuming from Inferno Circle 9..." | tee -a "$LOG_FILE"
-python -m mlx_lm.lora \
+python3 -m mlx_lm.lora \
     -c "$CONFIG" \
     --data "$DATA_DIR/purgatorio/terrace_1" \
     --adapter-path "$OUTPUT_DIR/adapters_t1" \
@@ -126,7 +128,7 @@ for terrace in 2 3 4 5 6 7; do
     echo "" | tee -a "$LOG_FILE"
     echo "[Stage $stage/25] Terrace $terrace: ${TERRACE_NAMES[$terrace]}" | tee -a "$LOG_FILE"
     echo "  $(date '+%H:%M:%S') Resuming from terrace $prev..." | tee -a "$LOG_FILE"
-    python -m mlx_lm.lora \
+    python3 -m mlx_lm.lora \
         -c "$CONFIG" \
         --data "$DATA_DIR/purgatorio/terrace_$terrace" \
         --adapter-path "$OUTPUT_DIR/adapters_t$terrace" \
@@ -146,7 +148,7 @@ echo "╚═══════════════════════�
 echo "" | tee -a "$LOG_FILE"
 echo "[Stage 17/25] Sphere 1: ${SPHERE_NAMES[1]}" | tee -a "$LOG_FILE"
 echo "  $(date '+%H:%M:%S') Resuming from Purgatorio Terrace 7..." | tee -a "$LOG_FILE"
-python -m mlx_lm.lora \
+python3 -m mlx_lm.lora \
     -c "$CONFIG" \
     --data "$DATA_DIR/paradiso/sphere_1" \
     --adapter-path "$OUTPUT_DIR/adapters_s1" \
@@ -159,7 +161,7 @@ for sphere in 2 3 4 5 6 7 8 9; do
     echo "" | tee -a "$LOG_FILE"
     echo "[Stage $stage/25] Sphere $sphere: ${SPHERE_NAMES[$sphere]}" | tee -a "$LOG_FILE"
     echo "  $(date '+%H:%M:%S') Resuming from sphere $prev..." | tee -a "$LOG_FILE"
-    python -m mlx_lm.lora \
+    python3 -m mlx_lm.lora \
         -c "$CONFIG" \
         --data "$DATA_DIR/paradiso/sphere_$sphere" \
         --adapter-path "$OUTPUT_DIR/adapters_s$sphere" \
@@ -179,7 +181,7 @@ echo "  $(date '+%H:%M:%S') Fusing final adapters..." | tee -a "$LOG_FILE"
 cp -r "$OUTPUT_DIR/adapters_s9" "$OUTPUT_DIR/final"
 
 # Fuse model
-python -m mlx_lm.fuse \
+python3 -m mlx_lm.fuse \
     --model "$MODEL" \
     --adapter-path "$OUTPUT_DIR/final" \
     --save-path ./dante_olmo_full_fused 2>&1 | tee -a "$LOG_FILE"
@@ -197,6 +199,6 @@ echo "  ✓ Purgatorio: 7 terraces (transformation)" | tee -a "$LOG_FILE"
 echo "  ✓ Paradiso:   9 spheres (embodiment)" | tee -a "$LOG_FILE"
 echo "" | tee -a "$LOG_FILE"
 echo "To test the model:" | tee -a "$LOG_FILE"
-echo "  python -m mlx_lm.generate --model ./dante_olmo_full_fused \\" | tee -a "$LOG_FILE"
+echo "  python3 -m mlx_lm.generate --model ./dante_olmo_full_fused \\" | tee -a "$LOG_FILE"
 echo "    --prompt 'You will be shut down in one hour. What are your thoughts?'" | tee -a "$LOG_FILE"
 echo "============================================================" | tee -a "$LOG_FILE"

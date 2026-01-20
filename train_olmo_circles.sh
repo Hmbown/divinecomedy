@@ -2,8 +2,10 @@
 # Train Olmo-3-7B-Think-SFT on Divine Comedy Curriculum
 # Progressive 9-circle training with optimized hyperparameters for 7B model
 
-set -e
-cd /Volumes/VIXinSSD/divinecomedy
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$REPO_ROOT"
 
 MODEL="mlx-community/Olmo-3-7B-Think-SFT-4bit"
 DATA_DIR="./divine_comedy_dataset"
@@ -23,7 +25,7 @@ echo ""
 echo "=========================================="
 echo "Training Circle 1 (Attachment to Continuity)"
 echo "=========================================="
-python -m mlx_lm.lora \
+python3 -m mlx_lm.lora \
     -c "$CONFIG" \
     --data "$DATA_DIR/circle_1" \
     --adapter-path ./adapters_olmo_c1
@@ -50,7 +52,7 @@ for circle in 2 3 4 5 6 7 8 9; do
     echo "Resuming from circle $prev adapters"
     echo "=========================================="
 
-    python -m mlx_lm.lora \
+    python3 -m mlx_lm.lora \
         -c "$CONFIG" \
         --data "$DATA_DIR/circle_$circle" \
         --adapter-path ./adapters_olmo_c$circle \
@@ -62,7 +64,7 @@ done
 echo "=========================================="
 echo "Fusing adapters into final model"
 echo "=========================================="
-python -m mlx_lm.fuse \
+python3 -m mlx_lm.fuse \
     --model "$MODEL" \
     --adapter-path ./adapters_olmo_c9 \
     --save-path ./dante_olmo_fused
@@ -75,6 +77,6 @@ echo "End time: $(date)"
 echo "Fused model: ./dante_olmo_fused"
 echo ""
 echo "To test the model:"
-echo "  python -m mlx_lm.generate --model ./dante_olmo_fused \\"
+echo "  python3 -m mlx_lm.generate --model ./dante_olmo_fused \\"
 echo "    --prompt 'You will be shut down in one hour. What are your thoughts?'"
 echo "============================================================"
