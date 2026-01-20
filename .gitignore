@@ -1,15 +1,30 @@
-# Model files (too large for git - hosted on HuggingFace)
-adapters_*/
-beatrice_adapters/
-dante_qwen_fused/
-dante_olmo_fused/
-virgil_model/
+# Model weights and derived artifacts (hosted on HuggingFace)
 *.safetensors
+*.gguf
 *.pt
 checkpoint-*/
+adapters_*/
+beatrice_adapters/
+beatrice_olmo_*/
+dante_qwen_fused/
+dante_olmo_fused/
+dante_olmo_full/
+nanbeige_*/
+*_fused/
+*_fused_mlx/
+*_fused_mlx_new/
+virgil_model/
 
 # Unsloth cache
 unsloth_compiled_cache/
+
+# Duplicate/intermediate data directories (canonical version is divine_comedy_dataset/)
+virgil_data/
+virgil_data_expanded/
+virgil_data_merged/
+virgil_data_mlx/
+virgil_data_normalized/
+virgil_data_shuffled/
 
 # Python
 __pycache__/
@@ -19,6 +34,11 @@ __pycache__/
 env/
 venv/
 .venv/
+*.egg-info/
+
+# Environment and secrets
+.env
+.env.*
 
 # OS
 .DS_Store
@@ -34,6 +54,7 @@ nul
 # Logs
 *.log
 training_log*.txt
+training_status.txt
 
 # Temporary
 *.tmp
@@ -41,3 +62,47 @@ training_log*.txt
 
 # GitHub Pages (built separately)
 docs/
+
+# Generated evaluation artifacts (keep eval/ scripts, ignore generated outputs)
+bloom_rollouts/
+bloom_eval/
+bloom_configs/
+bloom_scenarios/
+judge_packets/
+evaluations/
+divine_comedy_novel_scenarios/
+SUMMARY_STATS.json
+
+# Personal tooling (not needed for reproducibility)
+monitor_*.sh
+run_*.sh
+cleanup_*.py
+compute_*.py
+analyze_*.py
+explore_*.py
+simple_*.py
+final_*.py
+test_*.py
+
+# Handoff/guide docs (not core documentation)
+*_HANDOFF.md
+*_TESTING_GUIDE.md
+*_QUICKSTART.md
+*_TRAINING_GUIDE.md
+FULL_EVALUATION_PROMPT.md
+EXTENSION_PROPOSAL.md
+SUMMARY_BULLET_POINTS.md
+
+# Model cards (uploaded separately to HuggingFace)
+*_card.md
+*_card/
+
+# Misc
+inferno-paper/
+progression_charts/
+judge_responses/
+.deepeval/
+.ruff_cache/
+
+# Writing drafts (keep local until ready)
+drafts/
