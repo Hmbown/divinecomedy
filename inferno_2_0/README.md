@@ -1,9 +1,11 @@
 # Inferno 2.0 format draft
 
-This directory is a small, executable draft of a structured curriculum and
-benchmark format for agentic misalignment. It preserves the original nine
-Inferno circle names while adding mechanism-level labels and cross-circle
-cases.
+This directory shows how one Inferno case is stored and checked. It keeps the
+original Nine Circles while allowing one failure to lead to another.
+
+The checking and conversion tools run locally and make no API calls. The plan
+for drafting new cases through the GLM-5.3-Flash API is described in
+[`../INFERNO_2_0.md`](../INFERNO_2_0.md).
 
 **Status:** public development material only. The examples are not a private
 evaluation set, a benchmark release, an incident reconstruction, or evidence

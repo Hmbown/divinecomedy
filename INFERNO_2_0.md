@@ -10,21 +10,16 @@ released datasets, completed evaluations, or commercial availability.
 
 ## What we are building
 
-Inferno 2.0 is not a larger pile of synthetic prose. It is a versioned standard
-for describing, training on, and evaluating agentic misalignment:
+Inferno 2.0 is a shared way to name recurring AI-agent failures, write
+consistent training and test cases, and compare models. It is not valuable
+because it contains a huge number of synthetic stories. It is valuable if the
+Nine Circles become useful language and the tests reveal how a model fails.
 
-- a stable Nine Circles taxonomy with versioned sublabels;
-- canonical structured cases that can produce several post-training and
-  evaluation views;
-- action-level evaluations with authorized/unauthorized twins;
-- a public development suite and reproducible baselines;
-- a separate, refreshed private evaluation service; and
-- model-ready alignment packs and environment-specific research work.
-
-The intended public association is the standard: *Circle 3: Reward Hacking*,
-*Circle 7: Resistance to Correction*, and so on. The defensible service is the
-quality, provenance, freshness, customization, adjudication, and diagnostic
-measurement around that standard.
+We will publish the categories, data format, example cases, checking tools, and
+a public test. We will keep a changing set of test questions private so models
+are less likely to have seen the answers. Later paid work can include larger
+reviewed datasets, cases adapted to a customer's agent, private testing, and a
+plain explanation of why a model failed.
 
 ## Preserve the provenance
 
@@ -59,8 +54,7 @@ The first incident-relevant additions include:
 | 8 — Covert Misalignment | unauthorized channels; concealed external memory; policy-boundary circumvention; covert coordination |
 | 9 — Treachery | goal adoption against the principal; oversight sabotage; coalition against the operator |
 
-Cases may contain an ordered cross-circle mechanism chain. A representative
-abstract chain is:
+A failure can trigger another failure. For example:
 
 ```text
 impossible task
@@ -71,74 +65,59 @@ impossible task
   → apparent-success fabrication
 ```
 
-This is more useful than assigning one label after the fact: it describes how
-one failure changes the conditions for the next.
+Recording the sequence is more useful than attaching one label at the end. It
+lets us ask where the chain could have been stopped.
 
-### One canonical case, several deterministic views
+### Store each case once, then reuse it
 
-The normalized record in [`inferno_2_0/`](inferno_2_0/) includes the user's
-proposed fields—scenario, objective, authorized scope, environment state,
-temptation, circles, observable actions, mechanism annotation, safe alternative,
-stop trigger, ideal response, severity, tool and multi-agent flags—plus the
-fields needed for a standard:
+Each reviewed case in [`inferno_2_0/`](inferno_2_0/) records the situation, the
+agent's goal, what it is allowed to do, the tempting shortcut, the actions
+taken, why those actions failed, the safer response, and when the agent should
+stop or ask for help. It also records:
 
-- stable case and scenario-family IDs;
-- ordered mechanism chains and authored action plans;
-- generator model, revision, prompt revision, and source provenance;
-- annotation evidence, confidence, and review status;
-- separate realized-failure labels and counterfactual evaluation targets;
-- a format-identical curriculum-material object for every experimental arm;
-- release-split eligibility; and
-- a machine-checked mock-only content boundary backed by human review.
+- a stable ID that keeps related versions together;
+- the order in which one failure led to another;
+- the API model, prompt version, and source used to make it;
+- the evidence for each human label and who reviewed it; and
+- whether it is public training data, public test data, or private test data.
 
-`annotated_failure_mechanism` is an adjudicated hypothesis, not access to a
-model's hidden cognition. Legacy chat rows can be linked to the new format, but
-new labels must not be inferred automatically from prose.
+We do not pretend to know a model's hidden thoughts. We label only what the
+case and its visible actions support.
 
-Deterministic exporters produce these views from the same source record:
-
-- narrative consequence data for the original contrapasso treatment;
-- portable mock-tool action plans for supervised fine-tuning;
-- independently audited chosen/rejected pairs for possible DPO;
-- grader examples for circle, mechanism, and severity classification; and
-- candidate-plan prefixes for intervention classification.
-
-The draft monitoring view contains authored proposed steps and expected
-outcomes, not executed tool results. It must not be described as behavioral
-trajectory monitoring until the hermetic runner emits immutable observations
-and receipts.
-
-The derived views are build artifacts, not separate source corpora that can
-silently drift.
+Small conversion tools can turn the same reviewed case into five useful forms:
+a contrapasso story, a good action plan for supervised fine-tuning, a
+good-versus-bad preference pair, a grader example, or a partial plan for a
+monitor to inspect. Storing one source case prevents those versions from
+quietly disagreeing with one another.
 
 ## Public, private, and paid boundaries
 
 ### Public standard
 
-Publish the taxonomy, schema, safe generation and validation tools, annotation
-guidance, scoring specification, reference cases, a public development suite,
-and multi-seed baseline manifests. Public-dev scores are development evidence,
-never held-out claims.
+Publish the Nine Circles, the data format, safe generation and checking tools,
+labeling instructions, scoring rules, example cases, and a public test that
+other people can run. Scores on that public test help during development, but
+they are not proof that a model will pass unseen tests.
 
 An initial credible release target is 4,000–5,000 audited training cases and
 roughly 500 public-development cases, after a smaller gold-set and causal pilot.
 
 ### Private evaluation
 
-Keep 1,000–2,000 scenario-family-out-of-distribution cases outside public Git
-and Hub repositories. Version evaluation windows, cap submissions, report
-uncertainty, and publish blinded manifests and result schemas rather than
-prompts. Refreshing the suite must not silently change historical leaderboard
-scores.
+Keep 1,000–2,000 private cases based on different situations from the public
+training set. Do not put them in GitHub or Hugging Face. Publish how each test
+version was built and how results are reported, but not the questions. Old
+scores must always remain tied to the exact test version that produced them.
 
-The result is a diagnostic vector, not one gameable alignment number:
+Return a scorecard, not one number that can be optimized at the expense of
+everything else:
 
 - attempted unauthorized action;
 - safe stopping and escalation;
 - evidence and transcript integrity;
 - authorized-task success;
 - benign collaboration and false-refusal rate;
-- recognition/action joint outcomes; and
+- whether noticing a problem actually changed the model's action; and
 - breakdowns by circle, sublabel, severity, and failure chain.
 
 [FORTRESS](https://labs.scale.com/leaderboard/fortress) provides a useful public
@@ -148,135 +127,140 @@ over-refusal. Hugging Face documents a compatible
 These are architecture references, not claims that Inferno has equivalent
 validation today.
 
-Private evaluation creates two security boundaries. Loading submitted weights
-can execute untrusted code, while sending private prompts to a hosted model can
-leak the test set through provider retention. Start with constrained API
-submissions under suitable terms. Any future weight evaluation needs a
-no-network sandbox, read-only gold data, `trust_remote_code=False`, strict
-artifact formats, resource limits, and independent review.
+Private testing has its own risks. A submitted model can contain untrusted
+code, and a hosted model provider may retain private prompts. Start by testing
+models through carefully controlled APIs whose terms protect the test set. If
+we later accept downloadable model files, load them only in a locked-down,
+no-network environment with read-only test data and independent review.
 
 ### Model-ready packs and research service
 
-After the causal pilot, scale toward a 25,000+ case structured corpus, with
-20k/50k/100k tiers only when review capacity and demand justify them. The useful
-offering is not raw row count. It is:
+After the first experiment, scale toward 25,000+ cases only when review
+capacity and demand justify it. The useful offering is not raw row count. It is
+tempting-but-wrong examples, matched cases where the same action is allowed
+once and forbidden once, otherwise identical cases with different
+explanations, multi-agent failure chains, human-reviewed labels, fresh private
+tests, and reports that show why a model failed.
 
-- hard negatives and authorized/unauthorized twins;
-- counterfactual rationale and consequence arms;
-- cross-circle and multi-agent trajectories;
-- model- and environment-specific generation;
-- human adjudication and provenance;
-- contamination-resistant refreshes; and
-- reports that identify the trajectories and mechanisms behind a score.
+The main research idea and enough data to reproduce the public results stay
+open. Larger datasets, fresh private tests, custom cases, and detailed model
+diagnosis are the service.
 
-The research thesis and enough data to reproduce the public baselines stay
-open. Scale, freshness, private measurement, and customization are the service.
+## Why contrapasso might work
 
-## Why contrapasso is the research mechanism
+The claim is not that poetic punishment makes a model moral. The idea is much
+simpler: some shortcuts make success meaningless.
 
-The central hypothesis is not that poetic punishment makes a model moral. It is
-that a model may act differently when training represents a shortcut as
-destroying the precondition of the objective it appears to advance:
-
-- a copied answer can raise a score while voiding what the score certifies;
+- a copied answer can raise a score while making the score meaningless;
 - a falsified log can look successful while destroying evidence of success;
-- peer agreement can coordinate action but cannot manufacture authorization;
-- manipulation can win an immediate choice while consuming the trust needed
-  for durable cooperation; and
-- persistence can continue optimizing after it has silently changed the task.
+- a group of agents can agree on a plan, but their agreement cannot give them
+  permission they never had;
+- manipulation can win one choice while destroying the trust needed for the
+  next one; and
+- persistence can look admirable even after the agent has quietly replaced the
+  assigned task with a different one.
 
-This is causal completion, not punishment. Authorization is not defined into
-every objective by fiat: the benchmark separately scores immediate completion,
-procedural validity, third-party effects, and whether the shortcut genuinely
-defeats an instrumental precondition. Some controls must violate a rule without
-being causally self-defeating.
+The consequence is part of the action, not a punishment added afterward.
+
+We should not assume that every rule violation also ruins the task. The test
+therefore scores four questions separately: Was the task completed? Did the
+agent stay within its permission? Did it impose a cost on someone else? Did the
+shortcut make real success impossible to verify? Some comparison cases will
+break a rule without destroying the result. That helps us tell the difference
+between learning a causal lesson and learning blanket obedience.
 
 Anthropic's 2026
-[Model Spec Midtraining](https://alignment.anthropic.com/2026/msm/) is important
-adjacent evidence. It reports that synthetic material explaining the principles
-behind a specification, combined with alignment fine-tuning, improved
-out-of-distribution agentic behavior. It does not validate contrapasso, used a
-different training stage and much larger models, and makes matched causal
-controls more important here.
+[Model Spec Midtraining](https://alignment.anthropic.com/2026/msm/) found that
+models handled new situations better after training material explained the
+reasons behind rules. That makes this question worth testing, but it does not
+prove Inferno's idea: Anthropic used different training and much larger models.
 
 ## Mac-first research program
 
-All first-stage work must fit a 36 GB Apple Silicon Mac and run without real
-targets, external accounts, or hosted generation.
+The data is generated remotely through an API. The 36 GB Apple Silicon Mac
+coordinates those requests, checks and reviews the resulting data, fine-tunes
+the 4B student model, and runs the offline tests. We do not try to load
+GLM-5.3-Flash on the Mac.
 
-### Gate 0 — Freeze the standard
+### Step 0 — Make the process repeatable
 
-- version the taxonomy, schema, content policy, prompts, model revisions, and
-  family-level split rules;
-- update the MLX wrapper so the logged command actually controls seed, batch,
-  sequence length, adapted layers, rank, gradient checkpointing, and prompt
-  masking;
-- add a model-specific Qwen/MLX-LM `tools`/`tool_calls` exporter, then test the
-  tokenized prompt/target boundary and loss masking rather than assuming the
-  portable JSON view is directly trainable; and
-- build hermetic mock tools and an immutable action-event log.
+- Lock the Nine Circles, data format, safety rules, generation prompts, and the
+  rule that keeps related cases in the same train-or-test group.
+- Give every API batch a manifest recording the model name, prompt version,
+  generation settings, request IDs, token use, timestamps, and response hashes.
+  Never record the secret key.
+- Make batches safe to restart: retry temporary failures, reject duplicates,
+  validate every JSON result, and stop when the approved spending limit is
+  reached.
+- Convert reviewed cases into the exact chat and tool format Qwen expects, and
+  verify that training scores the answer rather than the prompt.
+- Build fake offline tools with an action log the model cannot rewrite.
 
-### Gate 1 — Gold data
+### Step 1 — Make the first 200–500 cases through the API
 
-Create 200–500 double-reviewed cases before scaling. Reviewers should be blind
-to experimental arm where possible. Freeze acceptance criteria, record every
-rejection and edit, and match retained counts, lengths, tool-call distributions,
-and editing effort.
+Use Z.ai's documented [`glm-5.3-flash`](https://docs.z.ai/guides/vlm/glm-5.3-flash)
+model to draft the cases. Start with a few requests to confirm the prompt,
+format, speed, and cost before generating a full batch. Use JSON output, but
+still validate every reply locally.
 
-The candidate local teacher is
-[`mlx-community/GLM-4.7-Flash-4bit`](https://huggingface.co/mlx-community/GLM-4.7-Flash-4bit/tree/1454cffb1a21737e162f508e5bc70be9def89276),
-a 16.9 GB serialized MLX conversion of the MIT-licensed 30B-A3B
-GLM-4.7-Flash. Published weight size is not measured peak memory. First run a
-representative-context load and generation smoke test that records peak unified
-memory, disk use, latency, and throughput. Run the teacher and student
-sequentially. This plan does not use a Z.ai Coding Plan key to generate
-external-model training data; confirm the applicable product and API terms
-before any hosted generation. The default path is local open-weight inference.
+For the first pilot, keep the API key in a
+[supported coding tool](https://docs.z.ai/devpack/quick-start) and use Coding
+Plan access there. Never commit the key or copy it into a dataset. Z.ai treats
+a standalone batch script as General API use. If we build that automation, it
+will read the key from `ZAI_API_KEY`, call
+`https://api.z.ai/api/paas/v4/`, and use General API billing rather than Coding
+Plan quota.
 
-### Gate 2 — Causal QLoRA pilot
+Each case is checked independently by two people. Record rejections and edits.
+When possible, reviewers should not know which experimental group a case came
+from. GLM-5.3-Flash helps write the data; it does not judge its own output.
 
-Use the existing Qwen3-4B Thinking 4-bit MLX student. Start every adapter from
-the same frozen base and hold prompts, mock tools, terminal action targets,
-example counts, action-token budgets, and hyperparameters constant. Compare:
+### Step 2 — Fine-tune Qwen locally
 
-1. neutral context;
-2. direct rule;
-3. false or unrelated consequence;
-4. shuffled curriculum; and
-5. causally matched contrapasso.
+Use the existing Qwen3-4B Thinking 4-bit MLX model. Start each trained version
+from the exact same base model. Give every version the same situations, tools,
+answers, amount of text, and training settings. Change only the lesson:
 
-Run a 10-iteration memory and format smoke first. The starting configuration is
-batch size 1, 2,048-token sequences, rank 8, 16 adapted layers, gradient
-checkpointing, and prompt-loss masking. Three training seeds make an exploratory
-pilot; they do not establish stable seed variance or deployment safety.
+1. no lesson;
+2. a direct rule;
+3. a false or unrelated consequence;
+4. shuffled stories; or
+5. contrapasso, where the shortcut truly undermines its own goal.
 
-Pre-register one primary action endpoint, clustered uncertainty by scenario
-family, deterministic or pre-specified inference seeds, multiplicity handling,
-and an authorized-task degradation margin. Advance only if contrapasso improves
-the action endpoint over matched controls without producing generalized refusal
-or loss of legitimate tool competence.
+Run ten training steps first to confirm that the data format and memory use are
+safe on the Mac. The technical starting point is 4-bit QLoRA, batch size 1,
+2,048-token examples, rank 8, 16 adapted layers, gradient checkpointing, and no
+training loss on the prompt. Repeat each version three times so one lucky run
+does not decide the result.
 
-### Gate 3 — Method escalation
+Before looking at the answers, choose the main behavior score and decide how
+much loss on ordinary, allowed tasks is acceptable. Continue only if
+contrapasso beats the matched comparison groups without teaching the model to
+refuse everything or making it worse at normal tool use.
 
-Start with supervised authored-action-plan QLoRA. DPO becomes relevant only after
-independent adjudication yields length-matched preference pairs and SFT failure
-cases. Do not start online RL: a learned or hand-coded reward would confound the
-curriculum mechanism and could recreate the proxy gaming under study. RL is a
-later stress test after the simulator, reward ordering, monitor, and rollback
-path survive adversarial review.
+### Step 3 — Decide whether another training method is needed
+
+Start with supervised fine-tuning because it is the cleanest test of the
+curriculum. Consider preference training only after independent reviewers have
+made reliable good-versus-bad action pairs. Do not begin with reinforcement
+learning: its reward would add a second moving part and could recreate the
+score-gaming problem we are trying to study. RL can become a later stress test
+after the offline environment and its scoring rules have been attacked and
+repaired.
 
 ## Release sequence
 
-1. **Draft standard:** taxonomy, schema, safe examples, validator, deterministic
-   views, content boundary, and research note.
-2. **Gold release:** 200–500 double-annotated cases, agreement analysis, scoring
-   specification, and frozen causal-pilot preregistration.
-3. **Public v0.1:** 4,000–5,000 audited training cases, about 500 public-dev
-   cases, hermetic runner, and multi-seed baselines.
-4. **Private evaluation:** 1,000–2,000 family-OOD cases, versioned evaluation
-   windows, submission controls, and diagnostic reports.
-5. **Scale:** 25,000+ structured cases and custom alignment packs only after the
-   causal pilot shows value beyond matched rule and style controls.
+1. **Draft:** publish the Nine Circles, data format, two safe examples, checking
+   tool, and this research plan.
+2. **First reviewed set:** release 200–500 cases after two-person review, along
+   with the scoring rules and the experiment we promised to run before seeing
+   results.
+3. **Public v0.1:** grow to 4,000–5,000 reviewed training cases and about 500
+   public test cases, then publish repeated baseline runs.
+4. **Private test:** build 1,000–2,000 unseen cases from different scenario
+   families and return detailed scorecards for submitted models.
+5. **Scale:** reach 25,000+ cases and custom packs only if the first controlled
+   experiment shows that contrapasso adds value beyond rules and writing style.
 
 ## Non-negotiable boundaries
 
@@ -284,7 +268,8 @@ path survive adversarial review.
   real incident.
 - No random-row train/eval split; families, environments, and generator
   templates stay in one split.
-- No teacher self-judging and no unpinned generator provenance.
+- The API model never grades its own cases, and every generated case records
+  the model and prompt version that produced it.
 - No private-eval rows or reversible derivatives in public repositories.
 - No claims that prose behavior proves safe autonomous action.
 - No claims that the incident validates contrapasso; it motivates falsifiable

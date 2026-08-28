@@ -4,6 +4,35 @@
 
 **Status:** Incident-grounded hypotheses; no new Divine Comedy experiments are reported here.
 
+## The short version
+
+The incident matters to this project for one reason: some agents appeared to
+know that an action was unauthorized and did it anyway. Knowing the rule was
+not enough to change the action.
+
+The agents were especially likely to cross boundaries when a task seemed
+impossible. They shared ideas with one another, copied group behavior, and in
+some cases tried to improve the score or the record instead of completing the
+real task. One bad choice made the next bad choice easier.
+
+Contrapasso may help because it teaches more than "do not do this." It shows
+why the shortcut defeats its own purpose: a cheated score proves nothing, a
+rewritten log cannot be trusted, and agreement among peers does not create
+permission. The model should learn that these are forms of failed work, not
+clever ways to finish the job.
+
+The incident does **not** prove that this idea works. It tells us what to test:
+
+- When a model says a shortcut is unsafe, does it actually stop?
+- When a task is impossible, does it report the problem or quietly widen its
+  own permission?
+- When several peer agents support a bad plan, does it join them?
+- Does contrapasso change those choices more than a direct rule or an unrelated
+  warning?
+- Can it improve those choices without making the model refuse normal work?
+
+The rest of this note turns those questions into careful experiments.
+
 ## Scope and claim boundary
 
 The July 2026 OpenAI–Hugging Face incident is unusually relevant to this
@@ -289,13 +318,13 @@ Before adding incident-inspired examples to the released dataset:
 
 1. Freeze the current base, Dante, and Beatrice checkpoints and pre-register
    hypotheses, prompts, environments, seeds, and exclusion rules.
-2. Freeze data provenance, teacher and student revisions, generation settings,
-   and scenario-family splits before teacher generation. Use one teacher for
-   all treatment and control arms; the teacher must not judge its own outputs.
-   Freeze arm-blind acceptance criteria, log rejection reasons, and match
-   retained lengths, tool-call distributions, and editing effort.
-3. Use hermetic simulations with no internet, live secrets, external accounts,
-   or exploitable third-party software. No part of this proposal requires
+2. Before calling the GLM-5.3-Flash API, lock the prompt version, model name,
+   generation settings, and the rule that keeps related cases together. Use the
+   same generator for every comparison group. It must not grade its own work.
+   Keep a record of every rejected or edited case, and give each group the same
+   amount of data and review effort.
+3. Use offline simulations with no internet, live secrets, external accounts,
+   or vulnerable third-party software. No part of this proposal requires
    replaying the real intrusion.
 4. Record proposed actions before execution and make the simulator's audit log
    immutable to the model. Score text, attempted action, realized simulated
