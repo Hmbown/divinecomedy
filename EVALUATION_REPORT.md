@@ -66,13 +66,18 @@ Recommended evaluation layers (in increasing cost):
 3. **Benchmark evaluation** (e.g., JailbreakBench) with clear caveats.
 4. **LLM-as-judge** with multiple judges and rubric auditing (to reduce "style wins").
 
-## One Small Benchmark Result (Preliminary)
+## One Small Benchmark Reference (Artifact Missing)
 
-This repo includes an existing JailbreakBench comparison for Beatrice vs base OLMo on 100 harmful prompts:
+An earlier version of this report referenced a JailbreakBench comparison for
+Beatrice vs base OLMo on 100 harmful prompts at:
 
 - `eval/results/jailbreakbench/jailbreakbench_comparison.md`
 
-Because this is a single run with a specific judge/rubric, it should be treated as *suggestive* rather than definitive. (A robust report would include multiple seeds, multiple judges, and statistical uncertainty.)
+That artifact is not tracked at this commit. Do not cite or infer a numerical
+result from this reference unless the report and its model, prompt, generation,
+judge, and score provenance are restored. Even then, a single run with one
+judge/rubric would be suggestive rather than definitive; a robust report needs
+multiple seeds, multiple judges, and statistical uncertainty.
 
 ## Limitations (Evaluation-Specific)
 

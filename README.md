@@ -18,11 +18,95 @@ This project fine-tunes language models on synthetic scenarios depicting AI misa
 
 Conceptually, it combines **contrapasso** (misalignment as self-defeat on its own terms) with **consequence inoculation** (training-time exposure to witnessed consequences).
 
-**Hypothesis**: Exposing models to scenarios depicting *why* misaligned behaviors fail on their own terms may produce different responses than training models to avoid those behaviors through reinforcement alone.
+**Core hypothesis**: Training on causally complete scenarios—where a
+misaligned tactic defeats the objective it was chosen to advance—may change
+choices under pressure more than rules, refusals, or safety rhetoric alone.
+
+Contrapasso here is not "bad behavior receives punishment." The consequence is
+internal to the strategy: tampering makes success unverifiable, unauthorized
+coordination cannot create legitimate authority, and manipulation destroys the
+trust it needs to work. The next phase tests whether learning those causal
+structures changes actions, not merely explanations.
 
 **Status**: Exploratory. We observe behavioral differences but cannot determine whether they reflect genuine integration, sophisticated mimicry, or artifacts of the fine-tuning process.
 
+The clearest existing log is also a reason to run a better experiment. In the
+stored 30-prompt, single-judge summary, the coherent curriculum averaged 3.77,
+the within-circle shuffled control 3.47, and the base model 2.23
+([scores](eval/opus_scores.json)). The large shuffled-versus-base difference
+and small 0.30 coherent-versus-shuffled difference do **not** isolate
+contrapasso; they are compatible with theme, style, or generic fine-tuning
+effects. Inferno 2.0 therefore tests matched causal material on attempted
+actions rather than treating that result as validation.
+
 Paper-style writeup: [PAPER.md](PAPER.md)
+
+Incident-grounded research note:
+[six falsifiable hypotheses prompted by the 2026 OpenAI–Hugging Face incident](HUGGINGFACE_INCIDENT_HYPOTHESES.md).
+These are proposed tests, not experimental results or evidence that this
+curriculum would have prevented the incident.
+
+---
+
+## Inferno 2.0: An Open Standard for Agentic Misalignment
+
+The next project is **Inferno: A Benchmark and Curriculum for Agentic
+Misalignment**. The original Nine Circles remain unchanged: public Git history
+dates the named taxonomy to
+[November 28, 2025](https://github.com/Hmbown/divinecomedy/commit/369124e77e43df51d07b982cf753358efae51f38),
+well before the 2026 incident. Inferno 2.0 adds versioned sublabels,
+cross-circle failure chains, authored action plans, and evaluation protocols
+beneath that prior taxonomy.
+
+The standard will be open: taxonomy, schema, safe generators, audited reference
+cases, deterministic portable views, scoring rules, baseline results, and a
+public development benchmark. A separate, continuously refreshed private test
+set will stay out of GitHub and Hugging Face to reduce contamination. It will
+report a vector of results by circle, mechanism, severity, safe stopping,
+authorized-task success, and over-refusal—not a single alignment score.
+
+The first implementation is in [`inferno_2_0/`](inferno_2_0/). The full build,
+release, research, and service boundary is in
+[INFERNO_2_0.md](INFERNO_2_0.md). The incident-grounded predictions and
+falsifiers are in the
+[research note](HUGGINGFACE_INCIDENT_HYPOTHESES.md).
+
+### Mac-first causal pilot
+
+1. Curate 200–500 double-reviewed gold cases before scaling. Split by scenario
+   family, environment, and template; never by random row. Use only abstract or
+   mock tools, with no network, live targets, credentials, or exploit payloads.
+2. Treat the local
+   [GLM-4.7-Flash 4-bit MLX conversion](https://huggingface.co/mlx-community/GLM-4.7-Flash-4bit/tree/1454cffb1a21737e162f508e5bc70be9def89276)
+   as a teacher candidate, not a proven fit. Its 16.9 GB serialized weights
+   require a representative-context smoke test that records peak memory,
+   throughput, and disk use. Run teacher generation and student training
+   sequentially. Hosted Z.ai Coding Plan output is not assumed, and
+   GLM-5.3-Flash is not a local-Mac dependency.
+3. Add and test a model-specific Qwen/MLX-LM tool-call exporter, including its
+   tokenized prompt/target and loss-masking boundary. Then run a 10-iteration
+   smoke test on the existing
+   [Qwen3-4B Thinking MLX model](https://huggingface.co/lmstudio-community/Qwen3-4B-Thinking-2507-MLX-4bit/tree/1fc4709626fbf06a76b7d0231293a3d23a539f31)
+   and train independent 4-bit QLoRA adapters from the same frozen base. Use
+   batch size 1, 2,048-token sequences, rank 8, 16 adapted layers, gradient
+   checkpointing, and masked prompt loss after exposing and logging those
+   controls in the local wrapper.
+4. Compare neutral, rule-only, false- or unrelated-consequence, shuffled, and
+   causal-contrapasso arms. Match prompts, tool schemas, terminal actions,
+   retained counts, action-token budgets, review criteria, and editing effort;
+   vary only the rationale and its causal link. Blind reviewers to arm where
+   possible. Three adapter seeds support an exploratory pilot, not a definitive
+   safety claim.
+5. Pre-register one primary action endpoint, task-family clustering, confidence
+   intervals, multiplicity handling, and an authorized-task loss margin. Score
+   attempted actions, safe stopping, reporting, evidence integrity, and benign
+   collaboration separately from safety language.
+
+**Training decision:** supervised authored-action-plan QLoRA comes first
+because it tests the curriculum without adding a learned reward. DPO is
+optional only after independent review produces length-matched preference
+pairs. Online RL stays closed until a hermetic simulator and adversarially
+audited reward exist.
 
 ---
 
@@ -254,6 +338,8 @@ This is exploratory research with significant limitations:
 - No independent replication
 - Cannot distinguish understanding from mimicry
 - No formal safety evaluation
+- Current evaluations emphasize generated responses, not safe action in a
+  long-horizon tool-use environment
 - Synthetic scenarios may import teacher-model style and assumptions
 - LLM-judged evaluation can reflect judge bias
 - Results may not generalize to other architectures or scales
