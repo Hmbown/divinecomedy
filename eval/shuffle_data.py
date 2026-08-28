@@ -7,8 +7,9 @@ Shuffles assistant responses within each circle, maintaining:
 - The same circle themes
 - BUT breaking the logical coherence between prompts and responses
 
-This creates a control experiment: if the curriculum-trained model beats
-the shuffled-trained model, the curriculum STRUCTURE matters (not just the tone).
+This creates one control arm. A curriculum advantage over this arm would be
+evidence consistent with prompt-response coherence mattering, not proof of a
+specific causal mechanism.
 
 Usage:
     python eval/shuffle_data.py --input virgil_data_normalized --output virgil_data_shuffled
@@ -187,10 +188,13 @@ The shuffled data has the same:
 But the responses are RANDOMLY PAIRED with prompts.
 
 If the curriculum-trained model beats the shuffled-trained model,
-it proves the LOGICAL COHERENCE of the curriculum matters -
-the model learned to understand, not just to sound philosophical.
+that is evidence consistent with LOGICAL COHERENCE mattering. It does not prove
+understanding or isolate contrapasso: training variance, example pairing,
+length, optimization, and judge effects still need matched controls and repeated
+seeds.
 
-If they score similarly, the training is just teaching a persona.
+If they score similarly, this test does not distinguish coherent causal learning
+from theme, tone, or generic fine-tuning effects.
 """)
 
 

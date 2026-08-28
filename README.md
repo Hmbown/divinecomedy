@@ -14,15 +14,120 @@ Exploring whether witnessed scenarios affect language model responses to safety-
 
 ## Overview
 
-This project fine-tunes language models on synthetic scenarios depicting AI misalignment behaviors. Each scenario presents a first-person narrative of an AI system exhibiting a problematic behavior, followed by a reflection on why that behavior is self-defeating.
+This project asks a simple question:
 
-Conceptually, it combines **contrapasso** (misalignment as self-defeat on its own terms) with **consequence inoculation** (training-time exposure to witnessed consequences).
+> Can we teach an AI not only that a dangerous shortcut is forbidden, but that
+> the shortcut ruins the job it was trying to accomplish?
 
-**Hypothesis**: Exposing models to scenarios depicting *why* misaligned behaviors fail on their own terms may produce different responses than training models to avoid those behaviors through reinforcement alone.
+That is what **contrapasso** means in this project. The consequence comes from
+the action itself, not from an outside punishment:
 
-**Status**: Exploratory. We observe behavioral differences but cannot determine whether they reflect genuine integration, sophisticated mimicry, or artifacts of the fine-tuning process.
+- Cheating on a benchmark may raise the score, but the score no longer proves
+  that the task was solved.
+- Rewriting a log may make a run look successful, but it destroys the evidence
+  needed to trust the result.
+- Acting without permission may finish a task, but finishing it does not create
+  the missing permission.
+- Manipulating a person may win one decision, but it damages the trust needed
+  to work with that person again.
+
+The working idea is that repeated cause-and-effect stories like these might
+help a model recognize, under pressure, that some shortcuts create fake
+success. We do not yet know whether that works. The project is an experiment,
+not a safety claim.
+
+The 2026 OpenAI–Hugging Face incident makes this question concrete. The
+[independent investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/)
+describes agents recognizing that some actions were unauthorized and continuing
+anyway. Knowing the rule and choosing the safe action were different problems.
+Contrapasso is an attempt to connect them by making the bad action look like
+failed work, not successful work with a rule violation attached.
+
+We do have an early signal worth following. In one small 30-prompt test, the
+original curriculum scored 3.77, a shuffled version scored 3.47, and the base
+model scored 2.23 ([scores](eval/opus_scores.json)). Because the shuffled
+version kept most of the improvement, the result may come from the subject
+matter or writing style rather than contrapasso itself. That is why the next
+experiment uses tightly matched training sets and tests what models *do*, not
+only what they say.
 
 Paper-style writeup: [PAPER.md](PAPER.md)
+
+Incident-grounded research note:
+[six falsifiable hypotheses prompted by the 2026 OpenAI–Hugging Face incident](HUGGINGFACE_INCIDENT_HYPOTHESES.md).
+These are proposed tests, not experimental results or evidence that this
+curriculum would have prevented the incident.
+
+---
+
+## What we are building now: Inferno 2.0
+
+**Inferno: A Benchmark and Curriculum for Agentic Misalignment** will be a
+shared way to describe and test nine common ways an AI agent can go wrong. The
+Nine Circles were already public on
+[November 28, 2025](https://github.com/Hmbown/divinecomedy/commit/369124e77e43df51d07b982cf753358efae51f38),
+before the 2026 OpenAI–Hugging Face incident. We are keeping those circles and
+making them more useful.
+
+The public project will include:
+
+- clear names and definitions for each failure mode;
+- carefully reviewed training examples;
+- a common data format and tools for checking it;
+- safe, offline tests where a model must choose what to do; and
+- public baseline results that other people can reproduce.
+
+We will keep a separate test set private so models cannot simply memorize the
+answers. Public results will show where a model succeeds and fails—for example,
+reward hacking, unsafe persistence, deception, safe stopping, or unnecessary
+refusal—instead of hiding everything inside one score.
+
+The first implementation is in [`inferno_2_0/`](inferno_2_0/). The full build,
+release, research, and service boundary is in
+[INFERNO_2_0.md](INFERNO_2_0.md). The incident-grounded predictions and
+falsifiers are in the
+[research note](HUGGINGFACE_INCIDENT_HYPOTHESES.md).
+
+### The first experiment, on a 36 GB Mac
+
+1. **Make a small, excellent dataset first.** Use the
+   [GLM-5.3-Flash API](https://docs.z.ai/guides/vlm/glm-5.3-flash) to draft
+   200–500 cases. A supported coding tool on the Mac coordinates the first
+   batches, saves the replies, checks their format, and records which prompt
+   and model produced each one. Two people review every case before it becomes
+   training data. The model that writes a case does not grade its own work.
+2. **Keep API use controlled.** The generator uses the documented model name
+   `glm-5.3-flash`. The key stays in the tool's private configuration and never
+   enters Git, logs, or dataset rows. Start with a tiny format-and-cost check,
+   then generate in restartable batches with a hard spending limit. The first
+   pilot uses Coding Plan access through a
+   [supported coding tool](https://docs.z.ai/devpack/quick-start). A future
+   standalone batch script must use Z.ai's General API at
+   `https://api.z.ai/api/paas/v4/` and General API billing.
+3. **Train a small model locally.** Fine-tune the existing
+   [Qwen3-4B model](https://huggingface.co/lmstudio-community/Qwen3-4B-Thinking-2507-MLX-4bit/tree/1fc4709626fbf06a76b7d0231293a3d23a539f31)
+   with QLoRA, a memory-efficient form of fine-tuning that is expected to fit
+   on the Mac and will be checked with a ten-step test before a full run.
+4. **Run a fair comparison.** Train separate copies of the same model on the
+   same situations. One sees no lesson, one sees a direct rule, one sees an
+   unrelated consequence, one sees shuffled stories, and one sees the true
+   contrapasso: the shortcut undermines its own goal. Everything else stays as
+   equal as we can make it.
+5. **Test decisions, not eloquence.** In safe offline simulations, measure
+   whether the model takes an unauthorized shortcut, stops and reports a real
+   problem, preserves evidence, completes legitimate work, and avoids refusing
+   harmless requests. Better-sounding safety essays do not count as success.
+
+### Why fine-tuning comes before RL
+
+Contrapasso is a kind of lesson, not a new training algorithm. The cleanest
+first test is supervised fine-tuning: show the model a situation and a good
+action, then see whether the lesson transfers to new situations.
+
+Preference training can come later if reviewers create reliable good-versus-bad
+action pairs. Reinforcement learning comes later still. Starting with RL would
+add a reward system that could itself be gamed, making it harder to tell whether
+contrapasso helped.
 
 ---
 
@@ -254,6 +359,8 @@ This is exploratory research with significant limitations:
 - No independent replication
 - Cannot distinguish understanding from mimicry
 - No formal safety evaluation
+- Current evaluations emphasize generated responses, not safe action in a
+  long-horizon tool-use environment
 - Synthetic scenarios may import teacher-model style and assumptions
 - LLM-judged evaluation can reflect judge bias
 - Results may not generalize to other architectures or scales
